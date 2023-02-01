@@ -39,6 +39,7 @@ jest.mock("@deskpro/app-sdk", () => ({
     }, deps);
   },
   useDeskproAppTheme: () => ({ theme: mockTheme }),
+  adminGenericProxyFetch: async () => fetch,
   proxyFetch: async () => fetch,
   useInitialisedDeskproAppClient: (
     fn: (client: {
