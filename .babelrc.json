@@ -11,6 +11,18 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "transpileTemplateLiterals": false
+      }
+    ],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "runtime": "automatic"
+      }
+    ],
     "@babel/plugin-transform-shorthand-properties",
     "@babel/plugin-transform-block-scoping",
     [
