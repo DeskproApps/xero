@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import { v4 as uuidv4 } from "uuid";
+import jwt_decode from "jwt-decode";
 import { useMemo, useState } from "react";
 import {
   useDeskproAppClient,
@@ -21,6 +22,10 @@ export const useGlobalAuth = () => {
   );
   const [settings, setSettings] = useState<ISettings | null>(null);
   const [accessCode, setAccessCode] = useState<string | null>(null);
+  const [message, setMessage] = useState<{
+    error?: string;
+    success?: string;
+  } | null>(null);
 
   useDeskproAppEvents(
     {
@@ -55,7 +60,14 @@ export const useGlobalAuth = () => {
   };
 
   const signIn = async () => {
-    if (!callbackUrl || !poll) return false;
+    if (!callbackUrl || !poll) {
+      setMessage({
+        error:
+          "Error getting callback URL. Please wait for the app to be initialized.",
+      });
+
+      return;
+    }
 
     window.open(
       `https://login.xero.com/identity/connect/authorize?response_type=code&client_id=${
@@ -69,16 +81,20 @@ export const useGlobalAuth = () => {
       .then((e) => e.token)
       .catch(() => false);
 
-    if (!code) return false;
+    if (!code) {
+      setMessage({
+        error: "Error getting access code. Please try again.",
+      });
+
+      return;
+    }
 
     setAccessCode(code as string);
-
-    return true;
   };
 
   useInitialisedDeskproAppClient(
     (client) => {
-      if (![accessCode, callbackUrl, settings].every((e) => e)) return;
+      if (![accessCode, callbackUrl].every((e) => e)) return;
 
       (async () => {
         const tokens = await getAccessAndRefreshTokens(
@@ -88,12 +104,24 @@ export const useGlobalAuth = () => {
           client
         );
 
-        if (tokens.error) return false;
+        if (tokens.error) {
+          setMessage({
+            error: "Error signing in. Please try again: " + tokens.error,
+          });
+
+          return;
+        }
+
+        const user = (jwt_decode(tokens.id_token) as { name: string }).name;
 
         client.setAdminSetting(JSON.stringify(tokens));
+
+        setMessage({
+          success: `Successfully signed in. Welcome ${user}!`,
+        });
       })();
     },
-    [accessCode, callbackUrl, settings]
+    [accessCode, callbackUrl]
   );
 
   return {
@@ -103,5 +131,6 @@ export const useGlobalAuth = () => {
     setAccessCode,
     signIn,
     signOut,
+    message,
   };
 };

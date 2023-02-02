@@ -27,7 +27,7 @@
       "description": "Client ID can be obtained by following our setup guide",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": false,
+      "isBackendOnly": true,
       "order": 10
     },
     "client_secret": {
@@ -35,8 +35,8 @@
       "description": "Client Secret can be obtained by following our setup guide",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": false,
-      "order": 10
+      "isBackendOnly": true,
+      "order": 20
     },
     "global_access_token": {
       "title": "",
@@ -46,7 +46,7 @@
       },
       "isRequired": true,
       "isBackendOnly": true,
-      "order": 40
+      "order": 30
     }
   },
   "proxy": {

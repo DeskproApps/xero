@@ -10,14 +10,11 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
-import { useState } from "react";
 
 export const GlobalAuth = () => {
   const { theme } = useDeskproAppTheme();
 
-  const [completed, setCompleted] = useState<boolean | null>(null);
-
-  const { callbackUrl, signIn } = useGlobalAuth();
+  const { callbackUrl, signIn, message } = useGlobalAuth();
 
   return (
     <Stack vertical gap={10}>
@@ -55,19 +52,14 @@ export const GlobalAuth = () => {
       <Button
         text="Sign In"
         data-testid="submit-button"
-        onClick={async () => {
-          const status = await signIn();
-          setCompleted(status);
-        }}
+        onClick={signIn}
       ></Button>
-      {completed == null ? (
+      {!message ? (
         <div></div>
-      ) : completed ? (
-        <H1>Authorization has been completed</H1>
+      ) : message.error ? (
+        <H1 style={{ color: "red" }}>{message.error}</H1>
       ) : (
-        <Stack style={{ color: "red" }}>
-          <H1>An error has ocurred.</H1>
-        </Stack>
+        <H1>{message.success}</H1>
       )}
     </Stack>
   );
