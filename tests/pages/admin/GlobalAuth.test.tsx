@@ -15,6 +15,14 @@ const renderPage = () => {
   );
 };
 
+jest.mock("../../../src/api/preInstallApi", () => ({
+  ...jest.requireActual("../../../src/api/preInstallApi"),
+  getAccessAndRefreshTokens: async () => ({
+    id_token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UifQ.DjwRE2jZhren2Wt37t5hlVru6Myq4AhpGLiiefF69u8",
+  }),
+}));
+
 jest.mock("@deskpro/app-sdk", () => ({
   ...jest.requireActual("@deskpro/app-sdk"),
   useDeskproAppClient: () => ({ client: {} }),
@@ -102,7 +110,7 @@ describe("Global Auth", () => {
     });
 
     const headingElement = await waitFor(
-      () => getByText(/Authorization has been completed/i),
+      () => getByText(/Successfully signed in. Welcome John Doe/i),
       {
         timeout: 3000,
       }
