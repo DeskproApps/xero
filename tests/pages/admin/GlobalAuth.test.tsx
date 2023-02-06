@@ -23,6 +23,11 @@ jest.mock("../../../src/api/preInstallApi", () => ({
   }),
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  Link: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}));
+
 jest.mock("@deskpro/app-sdk", () => ({
   ...jest.requireActual("@deskpro/app-sdk"),
   useDeskproAppClient: () => ({ client: {} }),
