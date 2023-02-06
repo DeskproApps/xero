@@ -10,11 +10,12 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
+import { Link } from "react-router-dom";
 
 export const GlobalAuth = () => {
   const { theme } = useDeskproAppTheme();
 
-  const { callbackUrl, signIn, message } = useGlobalAuth();
+  const { callbackUrl, signIn, message, authUrl } = useGlobalAuth();
 
   return (
     <Stack vertical gap={10}>
@@ -49,11 +50,13 @@ export const GlobalAuth = () => {
           </P1>
         </>
       )}
-      <Button
-        text="Sign In"
-        data-testid="submit-button"
-        onClick={signIn}
-      ></Button>
+      <Link to={authUrl as string}>
+        <Button
+          text="Sign In"
+          data-testid="submit-button"
+          onClick={signIn}
+        ></Button>
+      </Link>
       {!message ? (
         <div></div>
       ) : message.error ? (

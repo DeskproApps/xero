@@ -1,79 +1,116 @@
-import { useState } from "react";
 import {
-  Context,
-  H1,
-  HorizontalDivider,
-  LoadingSpinner,
-  Property,
-  proxyFetch,
-  Stack,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import * as React from "react";
-/*
-    Note: the following page component contains example code, please remove the contents of this component before you
-    develop your app. For more information, please refer to our apps
-    guides @see https://support.deskpro.com/en-US/guides/developers/anatomy-of-an-app
-*/
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getContactById } from "../api/api";
+import { useLinkContact } from "../hooks/hooks";
+import { useQueryMutationWithClient } from "../hooks/useQueryWithClient";
+
+const MOCKDATA = {
+  User: {
+    PrimaryName: "John Doe",
+    PrimaryEmail: "johndoe@email.com",
+  },
+  Invoices: [
+    {
+      InvoiceNumber: "INV-123",
+      InvoiceDate: "2021-01-01",
+      DueAmount: "£100.00",
+      Status: "Paid",
+      Reference: "12312394",
+    },
+    {
+      InvoiceNumber: "INV-124",
+      InvoiceDate: "2021-01-01",
+      DueAmount: "£100.00",
+      Status: "Authorized",
+      Reference: "12312394",
+    },
+  ],
+  Bills: [
+    {
+      BillNumber: "BILL-123",
+      BillDate: "2021-01-01",
+      DueAmount: "£100.00",
+      Status: "Awaiting Payment",
+      Reference: "12312394",
+    },
+    {
+      BillNumber: "BILL-124",
+      BillDate: "2021-01-01",
+      DueAmount: "£100.00",
+      Status: "Paid",
+      Reference: "12312394",
+    },
+  ],
+  Quotes: [
+    {
+      QuoteNumber: "QUOTE-123",
+      Date: "2021-01-01",
+      Total: "£100.00",
+      Redefence: "2022-01-01",
+    },
+  ],
+};
 
 export const Main = () => {
-  const [ticketContext, setTicketContext] = useState<Context | null>(null);
-  const [examplePosts, setExamplePosts] = useState<
-    { id: string; title: string }[]
-  >([]);
+  const [contactId, setContactId] = useState<string | null>(null);
 
-  // Add a "refresh" button @see https://support.deskpro.com/en-US/guides/developers/app-elements
+  const contactMutation = useQueryMutationWithClient((id, client) =>
+    getContactById(client, id)
+  );
+
+  const { unlinkContact, context, client, getContactId } = useLinkContact();
+  contactId;
   useInitialisedDeskproAppClient((client) => {
-    client.registerElement("myRefreshButton", { type: "refresh_button" });
+    client.registerElement("refreshButton", { type: "refresh_button" });
+
+    client.registerElement("xeroMenuButton", {
+      type: "menu",
+      items: [
+        {
+          title: "Unlink contact",
+          payload: {
+            type: "changePage",
+            page: "/",
+          },
+        },
+      ],
+    });
   });
 
-  // Listen for the "change" event and store the context data
-  // as local state @see https://support.deskpro.com/en-US/guides/developers/app-events
-  useDeskproAppEvents({
-    onChange: setTicketContext,
-  });
-
-  // Use the apps proxy to fetch data from a third party
-  // API @see https://support.deskpro.com/en-US/guides/developers/app-proxy
-  useInitialisedDeskproAppClient((client) =>
+  useEffect(() => {
+    if (!context || !client) return;
     (async () => {
-      const fetch = await proxyFetch(client);
+      const getLinkedContactId = await getContactId();
 
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
+      if (!getLinkedContactId) navigate("/findCreate/account");
 
-      const posts = await response.json();
+      setContactId(getLinkedContactId as string);
 
-      setExamplePosts(posts.slice(0, 3));
-    })()
-  );
+      contactMutation.mutate(getLinkedContactId);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context, client]);
 
-  // If we don't have a ticket context yet, show a loading spinner
-  if (ticketContext === null) {
-    return <LoadingSpinner />;
-  }
+  useDeskproAppEvents({
+    onElementEvent(id) {
+      switch (id) {
+        case "refreshButton":
+          unlinkContact();
 
-  // Show some information about a given
-  // ticket @see https://support.deskpro.com/en-US/guides/developers/targets and third party API
-  return (
-    <>
-      <H1>Ticket Data</H1>
-      <Stack gap={12} vertical>
-        <Property title="Ticket ID">{ticketContext.data.ticket.id}</Property>
-        <Property title="Ticket Subject">
-          {ticketContext.data.ticket.subject}
-        </Property>
-      </Stack>
-      <HorizontalDivider width={2} />
-      <H1>Example Posts</H1>
-      {examplePosts.map((post) => (
-        <div key={post.id}>
-          <Property title="Post Title">{post.title}</Property>
-          <HorizontalDivider width={2} />
-        </div>
-      ))}
-    </>
-  );
+          break;
+      }
+    },
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/findCreate/account");
+  });
+
+  return <div></div>;
 };
