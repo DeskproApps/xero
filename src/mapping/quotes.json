@@ -1,0 +1,19 @@
+{
+  "main": [
+    {
+      "name": "reference",
+      "label": "Reference",
+      "type": "text"
+    },
+    {
+      "name": "date",
+      "label": "Date",
+      "type": "date"
+    },
+    {
+      "name": "total",
+      "label": "Total",
+      "type": "text"
+    }
+  ]
+}

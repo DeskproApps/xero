@@ -11,6 +11,7 @@ import {
 
 import { ISettings } from "../types/settings";
 import { getAccessAndRefreshTokens } from "../api/preInstallApi";
+import { IConnectToken } from "../types/connectToken";
 
 export const useGlobalAuth = () => {
   const { client } = useDeskproAppClient();
@@ -97,7 +98,7 @@ export const useGlobalAuth = () => {
       if (![accessCode, callbackUrl].every((e) => e)) return;
 
       (async () => {
-        const tokens = await getAccessAndRefreshTokens(
+        const tokens: IConnectToken = await getAccessAndRefreshTokens(
           settings as ISettings,
           accessCode as string,
           callbackUrl as string,

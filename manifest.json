@@ -21,6 +21,13 @@
       "entrypoint": "#/"
     }
   ],
+  "entityAssociations": {
+    "linkedXeroContacts": {
+      "entity": "person",
+      "type": "external_id",
+      "title": "Linked Xero Contacts"
+    }
+  },
   "settings": {
     "client_id": {
       "title": "Client ID",

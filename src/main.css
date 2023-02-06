@@ -1,6 +1,6 @@
 body {
   min-height: 400px;
-  margin: 0;
+  margin: 5px;
 }
 
 input::-webkit-outer-spin-button,
