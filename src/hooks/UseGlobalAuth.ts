@@ -17,6 +17,8 @@ export const useGlobalAuth = () => {
   const key = useMemo(() => uuidv4(), []);
 
   const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
+  const [authUrl, setAuthUrl] = useState<string | null>(null);
+
   const [poll, setPoll] = useState<(() => Promise<{ token: string }>) | null>(
     null
   );
@@ -69,7 +71,7 @@ export const useGlobalAuth = () => {
       return;
     }
 
-    window.open(
+    setAuthUrl(
       `https://login.xero.com/identity/connect/authorize?response_type=code&client_id=${
         settings?.client_id
       }&redirect_uri=${new URL(
@@ -132,5 +134,6 @@ export const useGlobalAuth = () => {
     signIn,
     signOut,
     message,
+    authUrl,
   };
 };
