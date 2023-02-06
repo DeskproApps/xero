@@ -50,7 +50,7 @@ export const GlobalAuth = () => {
           </P1>
         </>
       )}
-      <Link to={authUrl as string}>
+      <Link to={authUrl as string} target="_blank">
         <Button
           text="Sign In"
           data-testid="submit-button"
