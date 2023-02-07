@@ -50,13 +50,15 @@ export const GlobalAuth = () => {
           </P1>
         </>
       )}
-      <Link to={authUrl as string} target="_blank">
-        <Button
-          text="Sign In"
-          data-testid="submit-button"
-          onClick={signIn}
-        ></Button>
-      </Link>
+      {authUrl && (
+        <Link to={authUrl} target="_blank">
+          <Button
+            text="Sign In"
+            data-testid="submit-button"
+            onClick={signIn}
+          ></Button>
+        </Link>
+      )}
       {!message ? (
         <div></div>
       ) : message.error ? (

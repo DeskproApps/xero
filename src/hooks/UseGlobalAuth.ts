@@ -2,7 +2,7 @@
 //@ts-ignore
 import { v4 as uuidv4 } from "uuid";
 import jwt_decode from "jwt-decode";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useDeskproAppClient,
   useDeskproAppEvents,
@@ -50,11 +50,24 @@ export const useGlobalAuth = () => {
           );
 
         setCallbackUrl(callbackUrl);
+
         setPoll(() => poll);
       })();
     },
     [key]
   );
+
+  useEffect(() => {
+    if (!key || !callbackUrl) return;
+
+    setAuthUrl(
+      `https://login.xero.com/identity/connect/authorize?response_type=code&client_id=${
+        settings?.client_id
+      }&redirect_uri=${new URL(
+        callbackUrl as string
+      ).toString()}&scope=openid profile email offline_access&state=${key}`
+    );
+  }, [settings?.client_id, callbackUrl, key]);
 
   const signOut = () => {
     client?.setAdminSetting("");
@@ -71,14 +84,6 @@ export const useGlobalAuth = () => {
 
       return;
     }
-
-    setAuthUrl(
-      `https://login.xero.com/identity/connect/authorize?response_type=code&client_id=${
-        settings?.client_id
-      }&redirect_uri=${new URL(
-        callbackUrl as string
-      ).toString()}&scope=openid profile email offline_access&state=${key}`
-    );
 
     const code = await poll()
       .then((e) => e.token)
