@@ -1,9 +1,12 @@
 import { IDeskproClient, proxyFetch } from "@deskpro/app-sdk";
 import { IContact } from "../types/contact";
-import { RequestMethod } from "./types";
+import { IContactList, RequestMethod } from "./types";
 
-export const getContactById = (client: IDeskproClient, id: string) => {
-  return installedRequest(client, `api.xro/2.0/Contacts/${id}`, "GET");
+export const getContactById = (
+  client: IDeskproClient,
+  id: string
+): Promise<IContactList> => {
+  return installedRequest(client, `api.xro/2.0/Contacts?Ids=${id}`, "GET");
 };
 
 export const getContacts = (client: IDeskproClient, text?: string) => {
@@ -11,7 +14,9 @@ export const getContacts = (client: IDeskproClient, text?: string) => {
     client,
     `api.xro/2.0/Contacts${
       text &&
-      `?where=EmailAddress.Contains("${text}||Name.Contains("${text}||AccountNumber.Contains("${text}")`
+      `?where=${encodeURIComponent(
+        `EmailAddress!=null&&EmailAddress.Contains("${text}")||Name!=null&&Name.Contains("${text}")||AccountNumber!=null&&AccountNumber.Contains("${text}")`
+      )}`
     }`,
     "GET"
   );
@@ -38,6 +43,7 @@ const installedRequest = async (
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: `Bearer [[oauth/global/access_token]]`,
+      "xero-tenant-id": `__global_access_token.json("[tenant_id]")__`,
     },
   };
 
@@ -48,14 +54,15 @@ const installedRequest = async (
   let response = await fetch(`https://api.xero.com/${url.trim()}`, options);
 
   if ([400, 401, 403].includes(response.status)) {
+    let tokens;
     const refreshRequestOptions: RequestInit = {
       method: "POST",
-      body: `grant_type=refresh_token&refresh_token=__global_access_token.json("[refresh_token]")__`,
+      body: `grant_type=refresh_token&refresh_token=[[oauth/global/refresh_token]]`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic __client_id.base64encode__${btoa(
-          ":"
-        )}__client_secret.base64encode__`,
+        Authorization: `Basic ${btoa(
+          `39231CB7CCA04847816E7723A201FA75:jRH2EVhiuNBN4QqvGhUCku81O8j4eyCtM7pVI1EWWxKlxaLn`
+        )}`,
       },
     };
 
@@ -64,11 +71,41 @@ const installedRequest = async (
       refreshRequestOptions
     );
 
-    const refreshData = await refreshRes.json();
+    if (refreshRes.status !== 200) {
+      refreshRequestOptions.body = `grant_type=refresh_token&refresh_token=__global_access_token.json("[refresh_token]")__`;
+
+      const secondRefreshRes = await fetch(
+        `https://identity.xero.com/connect/token`,
+        refreshRequestOptions
+      );
+
+      const secondRefreshData = await secondRefreshRes.json();
+
+      if (secondRefreshRes.status !== 200) {
+        throw new Error(
+          JSON.stringify({
+            status: secondRefreshRes.status,
+            message: secondRefreshData,
+          })
+        );
+      }
+
+      tokens = secondRefreshData;
+    } else {
+      tokens = await refreshRes.json();
+    }
 
     await client.setState<string>(
       "oauth/global/access_token",
-      refreshData.access_token,
+      tokens.access_token,
+      {
+        backend: true,
+      }
+    );
+
+    await client.setState<string>(
+      "oauth/global/refresh_token",
+      tokens.refresh_token,
       {
         backend: true,
       }

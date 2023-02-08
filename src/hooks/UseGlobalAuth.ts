@@ -10,8 +10,9 @@ import {
 } from "@deskpro/app-sdk";
 
 import { ISettings } from "../types/settings";
-import { getAccessAndRefreshTokens } from "../api/preInstallApi";
-import { IConnectToken } from "../types/connectToken";
+import { getAccessAndRefreshTokens, getTenants } from "../api/preInstallApi";
+import { IConnectToken } from "../api/types";
+import { ITenant } from "../api/types";
 
 export const useGlobalAuth = () => {
   const { client } = useDeskproAppClient();
@@ -23,12 +24,15 @@ export const useGlobalAuth = () => {
   const [poll, setPoll] = useState<(() => Promise<{ token: string }>) | null>(
     null
   );
+  const [oauth2Tokens, setOauth2Tokens] = useState<IConnectToken | null>(null);
   const [settings, setSettings] = useState<ISettings | null>(null);
+  const [tenants, setTenants] = useState<ITenant[] | null>(null);
   const [accessCode, setAccessCode] = useState<string | null>(null);
   const [message, setMessage] = useState<{
     error?: string;
     success?: string;
   } | null>(null);
+  const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
 
   useDeskproAppEvents(
     {
@@ -65,7 +69,7 @@ export const useGlobalAuth = () => {
         settings?.client_id
       }&redirect_uri=${new URL(
         callbackUrl as string
-      ).toString()}&scope=openid profile email offline_access&state=${key}`
+      ).toString()}&scope=openid profile email accounting.transactions accounting.contacts accounting.reports.read accounting.attachments accounting.transactions offline_access&state=${key}`
     );
   }, [settings?.client_id, callbackUrl, key]);
 
@@ -122,7 +126,7 @@ export const useGlobalAuth = () => {
 
         const user = (jwt_decode(tokens.id_token) as { name: string }).name;
 
-        client.setAdminSetting(JSON.stringify(tokens));
+        setOauth2Tokens(tokens);
 
         setMessage({
           success: `Successfully signed in. Welcome ${user}!`,
@@ -131,6 +135,24 @@ export const useGlobalAuth = () => {
     },
     [accessCode, callbackUrl]
   );
+
+  useEffect(() => {
+    if (!selectedTenant || !client || !oauth2Tokens) return;
+
+    client.setAdminSetting(
+      JSON.stringify({ ...oauth2Tokens, tenant_id: selectedTenant })
+    );
+  }, [selectedTenant, client, oauth2Tokens]);
+
+  useEffect(() => {
+    if (!oauth2Tokens || !client) return;
+
+    (async () => {
+      const tenants = await getTenants(client, oauth2Tokens.access_token);
+
+      setTenants(tenants);
+    })();
+  }, [oauth2Tokens, client]);
 
   return {
     callbackUrl,
@@ -141,5 +163,8 @@ export const useGlobalAuth = () => {
     signOut,
     message,
     authUrl,
+    tenants,
+    selectedTenant,
+    setSelectedTenant,
   };
 };

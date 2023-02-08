@@ -1,42 +1,52 @@
 {
-  "create": [
-    {
-      "name": "contactName",
-      "label": "Contact Name",
-      "type": "text",
-      "required": true
-    },
-    {
-      "name": "accountNumber",
-      "label": "Account Number",
-      "type": "number"
-    },
-    {
-      "name": "firstName",
-      "label": "First Name",
-      "type": "text"
-    },
-    {
-      "name": "lastName",
-      "label": "Last Name",
-      "type": "text"
-    },
-    {
-      "name": "email",
-      "label": "Email",
-      "type": "email"
-    }
+  "view": [
+    [
+      {
+        "name": "Name",
+        "label": "Contact Name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "AccountNumber",
+        "label": "Account Number",
+        "type": "number"
+      }
+    ],
+    [
+      {
+        "name": "FirstName",
+        "label": "First Name",
+        "type": "text"
+      },
+      {
+        "name": "LastName",
+        "label": "Last Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email",
+        "type": "email"
+      }
+    ]
   ],
-  "main": [
-    {
-      "name": "primary_person",
-      "label": "Primary Person",
-      "type": "text"
-    },
-    {
-      "name": "primary_email",
-      "label": "Primary Email",
-      "type": "email"
-    }
+  "list": [
+    [
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email Adress",
+        "type": "email"
+      }
+    ]
   ]
 }

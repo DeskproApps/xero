@@ -35,13 +35,14 @@ export const useLinkContact = () => {
       ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
       .set(contactId);
 
-    navigate("/contact/" + contactId);
+    navigate("");
 
     setIsLinking(false);
   };
 
   const getContactId = async () => {
-    if (!context || !client) return;
+    if (!context || !client || !deskproUser) return;
+
     return (
       await client
         .getEntityAssociation("linkedXeroContacts", deskproUser.id)

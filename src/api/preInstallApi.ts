@@ -24,3 +24,17 @@ export const getAccessAndRefreshTokens = async (
     }),
   }).then((res) => res.json());
 };
+
+export const getTenants = async (
+  client: IDeskproClient,
+  access_token: string
+) => {
+  const fetch = await adminGenericProxyFetch(client);
+
+  return await fetch(`https://api.xero.com/connections`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+};

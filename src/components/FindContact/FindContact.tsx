@@ -16,32 +16,22 @@ import { useQueryWithClient } from "../../hooks/useQueryWithClient";
 import { QueryKeys } from "../../utils/query";
 import { getContacts } from "../../api/api";
 import { useLinkContact } from "../../hooks/hooks";
-const TESTACCS = [
-  {
-    id: 1,
-    name: "Test Account 1",
-    primary_email: "A@gmail.com",
-  },
-  {
-    id: 2,
-    name: "Test Account 2",
-    primary_email: "b@gmail.com",
-  },
-];
+import { IContactList } from "../../api/types";
+import { LogoAndLinkButton } from "../LogoAndLinkButton/LogoAndLinkButton";
+
 export const FindContact = () => {
   const { linkContact, isLinking } = useLinkContact();
   const [inputText, setInputText] = useState<string>("");
   const { debouncedValue: deboundedText } = useDebounce(inputText, 300);
   const [selectedContact, setSelectedContact] = useState<string | null>(null);
 
-  const contacts = useQueryWithClient(
+  const contacts = useQueryWithClient<IContactList>(
     [QueryKeys.CONTACTS, deboundedText],
     (client) => getContacts(client, deboundedText)
   );
 
   useInitialisedDeskproAppClient((client) => {
     client.setTitle("Find Contact");
-    client.registerElement("refreshButton", { type: "refresh_button" });
   });
 
   return (
@@ -54,7 +44,7 @@ export const FindContact = () => {
         leftIcon={faMagnifyingGlass}
       />
       {contacts.isLoading ? (
-        <Stack style={{ margin: "auto" }}>
+        <Stack style={{ margin: "auto", marginTop: "20px" }}>
           <Spinner size="extra-large" />
         </Stack>
       ) : (
@@ -67,27 +57,30 @@ export const FindContact = () => {
             <Button
               onClick={() => selectedContact && linkContact(selectedContact)}
               disabled={isLinking}
-              text="Link Issue"
+              text="Link Contact"
             ></Button>
             <HorizontalDivider />
           </Stack>
           <Stack vertical style={{ width: "100%" }}>
-            {TESTACCS?.map((contact, i: number) => (
+            {contacts.data?.Contacts?.map((contact, i: number) => (
               <div style={{ width: "100%" }} key={i}>
                 <Stack style={{ justifyContent: "space-between" }}>
                   <Stack vertical justify="start" key={i}>
                     <Radio
-                      label={contact.name}
-                      id={"option4"}
+                      label={contact.Name}
                       style={{ color: "#3A8DDE" }}
-                      name={"sbtest"}
-                      checked={selectedContact === contact.id.toString()}
-                      onChange={() => setSelectedContact(contact.id.toString())}
+                      checked={selectedContact === contact.ContactID}
+                      onChange={() => setSelectedContact(contact.ContactID)}
                     />
-                    <Label
-                      style={{ marginLeft: "20px" }}
-                      label={contact.primary_email}
-                    ></Label>
+                    <Stack>
+                      <Label
+                        style={{ marginLeft: "20px" }}
+                        label={contact.EmailAddress || "No email address"}
+                      ></Label>
+                      <LogoAndLinkButton
+                        endpoint={`/Contacts/${contact.ContactID}`}
+                      />
+                    </Stack>
                   </Stack>
                 </Stack>
                 <HorizontalDivider />

@@ -3,7 +3,7 @@ import { QueryClient } from "@tanstack/react-query";
 export const query = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense: true,
+      useErrorBoundary: true,
       refetchOnWindowFocus: false,
     },
   },
@@ -11,4 +11,5 @@ export const query = new QueryClient({
 
 export enum QueryKeys {
   CONTACTS = "contacts",
+  CONTACT_BY_ID = "contactById",
 }

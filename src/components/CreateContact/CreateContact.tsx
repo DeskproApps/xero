@@ -25,7 +25,7 @@ export const CreateAccount = () => {
 
   const navigate = useNavigate();
 
-  const submitMutation = useQueryMutationWithClient((data, client) =>
+  const submitMutation = useQueryMutationWithClient<IContact>((client, data) =>
     postContact(client, data)
   );
 
@@ -42,13 +42,17 @@ export const CreateAccount = () => {
   useEffect(() => {
     if (!submitMutation.isSuccess) return;
 
-    linkContact((submitMutation.data as { id: string }).id);
+    (async () => {
+      await linkContact((submitMutation.data as { Id: string }).Id);
+
+      navigate("/");
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitMutation.isSuccess]);
 
   useEffect(() => {
     const newObj: { [key: string]: ZodTypeAny } = {};
-    contactJson.create.forEach((field: any) => {
+    contactJson.view.flat().forEach((field: any) => {
       if (field.type === "email") {
         newObj[field.name] = z.string().email().optional();
       }
@@ -59,7 +63,7 @@ export const CreateAccount = () => {
         newObj[field.name] = z.number().optional();
       }
     });
-    setSchema(getMetadataBasedSchema(contactJson.create, newObj));
+    setSchema(getMetadataBasedSchema(contactJson.view.flat(), newObj));
   }, []);
 
   useInitialisedDeskproAppClient((client) => {
@@ -73,7 +77,7 @@ export const CreateAccount = () => {
     >
       <Stack vertical gap={12}>
         <Stack vertical gap={12} style={{ width: "100%" }}>
-          {contactJson.create.map((field, i) => {
+          {contactJson.view.flat().map((field, i) => {
             return (
               <Stack vertical gap={8} style={{ width: "100%" }} key={i}>
                 {field && field.name === "firstName" && <H0>Primary Person</H0>}

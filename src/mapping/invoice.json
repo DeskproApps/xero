@@ -1,24 +1,28 @@
 {
-  "main": [
-    {
-      "name": "reference",
-      "label": "Reference",
-      "type": "text"
-    },
-    {
-      "name": "status",
-      "label": "Status",
-      "type": "label"
-    },
-    {
-      "name": "date",
-      "label": "Date",
-      "type": "date"
-    },
-    {
-      "name": "due",
-      "label": "Due",
-      "type": "text"
-    }
+  "list": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Status",
+        "label": "Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      },
+      {
+        "name": "AmountDue",
+        "label": "Amount Due",
+        "type": "text"
+      }
+    ]
   ]
 }
