@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   '@deskpro/app-sdk': 1.2.8
-  '@fontsource/rubik': ^4.5.14
   '@heroicons/react': 1.0.6
   '@hookform/resolvers': ^2.9.10
   '@jest/globals': ^29.3.1
@@ -55,7 +54,6 @@ specifiers:
 
 dependencies:
   '@deskpro/app-sdk': 1.2.8_45719ea55af201dd921157d6e694b571
-  '@fontsource/rubik': 4.5.14
   '@heroicons/react': 1.0.6_react@18.2.0
   '@hookform/resolvers': 2.9.10_react-hook-form@7.43.0
   '@tanstack/react-query': 4.24.2_react-dom@18.2.0+react@18.2.0
@@ -640,10 +638,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@fontsource/rubik/4.5.14:
-    resolution: {integrity: sha512-EvMK3kkeAgKkk8qAeT4PjpyAYyu72pIlJm+SXJ5vR/xhCX2yj2xoq3+YS38rPmPcCAnrAVONoQ3ezLxVm6jhBA==}
-    dev: false
 
   /@formatjs/ecma402-abstract/1.11.4:
     resolution: {integrity: sha512-EBikYFp2JCdIfGEb5G9dyCkTGDmC57KSHhRQOC3aYxoPWVZvfWCDjZwkGYHN7Lis/fmuWl906bnNTJifDQ3sXw==}
