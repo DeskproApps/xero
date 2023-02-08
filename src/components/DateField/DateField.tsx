@@ -80,6 +80,7 @@ export const DateField: FC<MappedFieldProps> = forwardRef(
                 style={{ backgroundColor: "transparent" }}
                 rightIcon={{
                   icon: faCalendarDays,
+                  // doesnt like style, but it does accept it
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   style: {

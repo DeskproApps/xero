@@ -14,25 +14,6 @@ global.TextDecoder = TextDecoder;
 //@ts-ignore
 global.React = React;
 
-// jest.mock("./src/hooks.ts", () => ({
-//   ...jest.requireActual("./src/hooks.ts"),
-//   useQueryWithClient: (queryKey: string, queryFn: () => any, options: any) => {
-//     queryKey;
-//     options;
-//     if (!options || options?.enabled == null || options?.enabled == true) {
-//       return {
-//         isSuccess: true,
-//         data: queryFn(),
-//         isLoading: false,
-//       };
-//     }
-//     return {
-//       isSuccess: false,
-//       data: null,
-//       isLoading: false,
-//     };
-//   },
-// }));
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => jest.fn(),
