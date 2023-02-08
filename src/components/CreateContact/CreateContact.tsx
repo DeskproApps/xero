@@ -43,7 +43,7 @@ export const CreateAccount = () => {
     if (!submitMutation.isSuccess) return;
 
     (async () => {
-      await linkContact((submitMutation.data as { Id: string }).Id);
+      await linkContact((submitMutation.data as { Id: string })?.Id);
 
       navigate("/");
     })();
@@ -106,7 +106,7 @@ export const CreateAccount = () => {
           <Button
             loading={submitMutation.isLoading}
             disabled={submitMutation.isLoading}
-            data-testid="submit-button"
+            data-testid="button-submit"
             type="submit"
             text={submitMutation.isLoading ? "Submitting..." : "Submit"}
           ></Button>

@@ -78,7 +78,7 @@ export const FindContact = () => {
                         label={contact.EmailAddress || "No email address"}
                       ></Label>
                       <LogoAndLinkButton
-                        endpoint={`/Contacts/${contact.ContactID}`}
+                        endpoint={`/Contacts/View/${contact.ContactID}`}
                       />
                     </Stack>
                   </Stack>

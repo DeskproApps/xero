@@ -21,7 +21,7 @@ export const InputWithTitle = ({
   return (
     <Stack vertical style={{ width: "100%", marginTop: "5px" }}>
       <Stack>
-        <div style={{ color: theme.colors.grey80 }}>
+        <div style={{ color: theme?.colors?.grey80 }}>
           <H1>{title}</H1>
         </div>
         {required && (

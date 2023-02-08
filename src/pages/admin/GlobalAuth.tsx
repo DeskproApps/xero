@@ -41,7 +41,7 @@ export const GlobalAuth = () => {
             align="center"
             style={{ width: "100%" }}
           >
-            <Input value={callbackUrl}></Input>
+            <Input defaultValue={callbackUrl}></Input>
             <Stack style={{ marginLeft: "12px" }}>
               <CopyToClipboard text={callbackUrl}>
                 <Button
