@@ -76,7 +76,7 @@ export const GlobalAuth = () => {
       {!message ? (
         <div></div>
       ) : message.error ? (
-        <H1 style={{ color: "red" }}>{message.error}</H1>
+        <H1 style={{ color: theme?.colors?.red100 }}>{message.error}</H1>
       ) : (
         <H1>{message.success}</H1>
       )}

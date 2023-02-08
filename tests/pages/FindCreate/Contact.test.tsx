@@ -15,7 +15,7 @@ const renderPage = () => {
 };
 
 jest.mock("../../../src/api/api", () => {
-  const contactArr: any[] = [];
+  const contactArr: unknown[] = [];
 
   return {
     ...jest.requireActual("../../../src/api/api"),

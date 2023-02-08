@@ -2,7 +2,7 @@ import {
   useDeskproAppClient,
   useDeskproLatestAppContext,
 } from "@deskpro/app-sdk";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const useLinkContact = () => {
@@ -14,43 +14,47 @@ export const useLinkContact = () => {
   const deskproUser = context?.data.user;
 
   //check if contactid is string or num
-  const linkContact = async (contactId: string) => {
-    if (!context || !contactId || !client) return;
+  const linkContact = useCallback(
+    async (contactId: string) => {
+      if (!context || !contactId || !client) return;
 
-    setIsLinking(true);
+      setIsLinking(true);
 
-    const deskproUser = context?.data.user;
+      const deskproUser = context?.data.user;
 
-    const getEntityAssociationData = (await client
-      ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
-      .list()) as string[];
+      const getEntityAssociationData = (await client
+        ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
+        .list()) as string[];
 
-    if (getEntityAssociationData.length > 0) {
+      if (getEntityAssociationData.length > 0) {
+        await client
+          ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
+          .delete(getEntityAssociationData[0]);
+      }
+
       await client
         ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
-        .delete(getEntityAssociationData[0]);
-    }
+        .set(contactId);
 
-    await client
-      ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
-      .set(contactId);
+      navigate("");
 
-    navigate("");
+      setIsLinking(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [context, client]
+  );
 
-    setIsLinking(false);
-  };
-
-  const getContactId = async () => {
+  const getContactId = useCallback(async () => {
     if (!context || !client || !deskproUser) return;
-
     return (
       await client
         .getEntityAssociation("linkedXeroContacts", deskproUser.id)
         .list()
     )[0];
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, context]);
 
-  const unlinkContact = async () => {
+  const unlinkContact = useCallback(async () => {
     if (!context || !client) return;
 
     (async () => {
@@ -66,7 +70,8 @@ export const useLinkContact = () => {
 
       navigate("/");
     })();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, context]);
 
   return {
     linkContact,

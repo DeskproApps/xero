@@ -25,7 +25,7 @@ export const InputWithTitle = ({
           <H1>{title}</H1>
         </div>
         {required && (
-          <Stack style={{ color: "red" }}>
+          <Stack style={{ color: theme?.colors?.red100 }}>
             <H1>⠀*</H1>
           </Stack>
         )}
