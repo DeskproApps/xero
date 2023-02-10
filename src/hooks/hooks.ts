@@ -36,7 +36,7 @@ export const useLinkContact = () => {
         ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
         .set(contactId);
 
-      navigate("");
+      navigate(-1);
 
       setIsLinking(false);
     },

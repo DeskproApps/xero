@@ -14,13 +14,13 @@
     ],
     [
       {
-        "name": "DueDate",
-        "label": "Due Date",
+        "name": "Date",
+        "label": "Date",
         "type": "date"
       },
       {
-        "name": "AmountDue",
-        "label": "Amount Due",
+        "name": "Total",
+        "label": "Total",
         "type": "currency"
       }
     ]

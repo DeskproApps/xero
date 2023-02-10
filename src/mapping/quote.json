@@ -1,0 +1,28 @@
+{
+  "list": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Date",
+        "label": "Date",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "⠀",
+        "label": "⠀",
+        "type": "⠀"
+      }
+    ]
+  ]
+}

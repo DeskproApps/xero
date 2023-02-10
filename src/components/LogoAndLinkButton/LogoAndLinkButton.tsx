@@ -7,7 +7,7 @@ import { StyledLink } from "../../styles";
 
 export const LogoAndLinkButton = ({ endpoint }: { endpoint: string }) => {
   const { theme } = useDeskproAppTheme();
-  //change url
+
   return (
     <StyledLink to={`https://go.xero.com/${endpoint}`} target="_blank">
       <Stack
@@ -26,7 +26,7 @@ export const LogoAndLinkButton = ({ endpoint }: { endpoint: string }) => {
             marginLeft: "10px",
             alignSelf: "center",
             width: "10px",
-            color: theme.colors.brandShade100,
+            color: theme?.colors?.brandShade100,
           }}
         ></FontAwesomeIcon>
       </Stack>

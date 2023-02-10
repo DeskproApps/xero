@@ -10,7 +10,7 @@ export const GreyTitle = styled.h1`
 
 export const StyledLink = styled(Link)`
   all: unset;
-  color: ${({ theme }) => theme.colors.cyan100};
+  color: ${({ theme }) => theme.colors.black100};
   text-decoration: none;
   font-weight: 500;
 `;

@@ -1,6 +1,68 @@
 import { IDeskproClient, proxyFetch } from "@deskpro/app-sdk";
 import { IContact } from "../types/contact";
-import { IContactList, RequestMethod } from "./types";
+import {
+  IContactList,
+  IHistoryRecordList,
+  IInvoiceList,
+  IPurchaseOrderList,
+  IQuoteList,
+  RequestMethod,
+} from "./types";
+
+export const getNotesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IHistoryRecordList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Contacts/${contactId}/history`,
+    "GET"
+  );
+};
+
+export const getPurchaseOrdersByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IPurchaseOrderList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/PurchaseOrders?ContactIDs=${contactId}`,
+    "GET"
+  );
+};
+
+export const getQuotesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IQuoteList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Quotes?ContactIDs=${contactId}`,
+    "GET"
+  );
+};
+
+export const getBillsByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Invoices?ContactIDs=${contactId}&Where=Type=="ACCPAY"`,
+    "GET"
+  );
+};
+
+export const getInvoicesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Invoices?ContactIDs=${contactId}&Where=Type!="ACCPAY"`,
+    "GET"
+  );
+};
 
 export const getContactById = (
   client: IDeskproClient,
