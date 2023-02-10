@@ -12,24 +12,18 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const GlobalAuth = () => {
   const { theme } = useDeskproAppTheme();
+  const [tenant, setTenant] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     document.body.style.margin = "0px";
   }, []);
 
-  const {
-    callbackUrl,
-    signIn,
-    message,
-    authUrl,
-    tenants,
-    setSelectedTenant,
-    selectedTenant,
-  } = useGlobalAuth();
+  const { callbackUrl, signIn, message, authUrl, tenants, setSelectedTenant } =
+    useGlobalAuth();
 
   return (
     <Stack vertical gap={10} style={{ margin: "0px" }}>
@@ -64,7 +58,7 @@ export const GlobalAuth = () => {
           </P1>
         </>
       )}
-      {authUrl && (
+      {authUrl && !message?.success && (
         <Link to={authUrl} target="_blank">
           <Button
             text="Sign In"
@@ -83,8 +77,8 @@ export const GlobalAuth = () => {
       {tenants && (
         <Stack vertical>
           <H1>Please select the tenant you'd like to use:</H1>
-          <Stack vertical style={{ marginTop: "10px" }}>
-            {tenants.map((tenant, i) => (
+          <Stack vertical style={{ marginTop: "10px" }} gap={10}>
+            {tenants.map((tenantApi, i) => (
               <Stack gap={5} key={i}>
                 <Radio
                   style={{
@@ -92,12 +86,17 @@ export const GlobalAuth = () => {
                     fontWeight: "bold",
                     fontSize: "16px",
                   }}
-                  checked={selectedTenant === tenant.tenantId}
-                  onChange={() => setSelectedTenant(tenant.tenantId)}
+                  checked={tenant === tenantApi.tenantId}
+                  onChange={() => setTenant(tenantApi.tenantId)}
                 />
-                <H1>{tenant.tenantName}</H1>
+                <H1>{tenantApi.tenantName}</H1>
               </Stack>
             ))}
+            <Button
+              text="Confirm"
+              data-testid="submit-button"
+              onClick={() => tenant && setSelectedTenant(tenant)}
+            ></Button>
           </Stack>
         </Stack>
       )}

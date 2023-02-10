@@ -122,9 +122,7 @@ const installedRequest = async (
       body: `grant_type=refresh_token&refresh_token=[[oauth/global/refresh_token]]`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${btoa(
-          `39231CB7CCA04847816E7723A201FA75:jRH2EVhiuNBN4QqvGhUCku81O8j4eyCtM7pVI1EWWxKlxaLn`
-        )}`,
+        Authorization: `Basic __client_id+':'+client_secret.base64__`,
       },
     };
 
