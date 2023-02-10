@@ -92,6 +92,10 @@ export const Main = () => {
     });
   });
 
+  useInitialisedDeskproAppClient((client) => {
+    client.setTitle("Xero");
+  });
+
   useEffect(() => {
     if (!context || !client) return;
 

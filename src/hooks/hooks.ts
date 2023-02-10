@@ -81,12 +81,9 @@ export const useLinkContact = () => {
       await client
         .getEntityAssociation("linkedXeroContacts", deskproUser.id)
         .delete(id);
-
-      navigate("/");
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, context]);
-
   return {
     linkContact,
     isLinking,

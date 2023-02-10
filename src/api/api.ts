@@ -66,7 +66,10 @@ export const getContactById = (
   return installedRequest(client, `api.xro/2.0/Contacts?Ids=${id}`, "GET");
 };
 
-export const getContacts = (client: IDeskproClient, text?: string) => {
+export const getContacts = (
+  client: IDeskproClient,
+  text?: string
+): Promise<IContactList> => {
   return installedRequest(
     client,
     `api.xro/2.0/Contacts${
