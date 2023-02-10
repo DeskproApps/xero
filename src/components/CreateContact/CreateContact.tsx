@@ -44,7 +44,7 @@ export const CreateAccount = () => {
     if (!submitMutation.isSuccess) return;
 
     (async () => {
-      await linkContact(submitMutation.data.Contacts[0].ContactID);
+      await linkContact(submitMutation.data?.Contacts[0].ContactID);
 
       navigate("/");
     })();

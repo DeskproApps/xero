@@ -133,7 +133,7 @@ export const Main = () => {
   const invoices = invoiceQuery.data?.Invoices;
   const quotes = quotesQuery.data?.Quotes;
   const purchaseOrders = purchaseOrderQuery.data?.PurchaseOrders.filter(
-    (e) => e.Contact.ContactID === contactId
+    (e) => e.Contact?.ContactID === contactId
   );
   const notes = notesQuery.data?.HistoryRecords.filter(
     (e) => e.Changes === "Note"
