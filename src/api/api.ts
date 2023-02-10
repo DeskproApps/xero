@@ -75,7 +75,7 @@ export const getContacts = (
     `api.xro/2.0/Contacts${
       text &&
       `?where=${encodeURIComponent(
-        `EmailAddress!=null&&EmailAddress.Contains("${text}")||Name!=null&&Name.Contains("${text}")||AccountNumber!=null&&AccountNumber.Contains("${text}")`
+        `EmailAddress!=null&&EmailAddress.ToLower().Contains("${text.toLowerCase()}")||Name!=null&&Name.ToLower().Contains("${text.toLowerCase()}")||AccountNumber!=null&&AccountNumber.ToLower().Contains("${text.toLowerCase()}")`
       )}`
     }`,
     "GET"

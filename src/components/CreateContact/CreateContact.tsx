@@ -9,6 +9,7 @@ import {
   H0,
   H2,
   Stack,
+  useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { postContact } from "../../api/api";
@@ -22,6 +23,7 @@ import { IContactList } from "../../api/types";
 
 export const CreateAccount = () => {
   const { linkContact } = useLinkContact();
+  const { context } = useDeskproLatestAppContext();
   const [schema, setSchema] = useState<ZodTypeAny>(z.object({}));
 
   const navigate = useNavigate();
@@ -36,9 +38,22 @@ export const CreateAccount = () => {
     handleSubmit,
     setValue,
     watch,
+    reset,
   } = useForm<IContact>({
     resolver: zodResolver(schema as ZodObject<any>),
   });
+
+  useEffect(() => {
+    if (!context) return;
+
+    reset({
+      EmailAddress: context.data.user.primaryEmail,
+      FirstName: context.data.user.firstName,
+      LastName: context.data.user.lastName,
+      Name: context.data.user.name,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context]);
 
   useEffect(() => {
     if (!submitMutation.isSuccess) return;
