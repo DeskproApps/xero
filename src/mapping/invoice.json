@@ -1,0 +1,28 @@
+{
+  "list": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Status",
+        "label": "Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      },
+      {
+        "name": "AmountDue",
+        "label": "Amount Due",
+        "type": "text"
+      }
+    ]
+  ]
+}

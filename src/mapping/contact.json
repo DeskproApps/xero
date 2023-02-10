@@ -1,0 +1,52 @@
+{
+  "view": [
+    [
+      {
+        "name": "Name",
+        "label": "Contact Name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "AccountNumber",
+        "label": "Account Number",
+        "type": "number"
+      }
+    ],
+    [
+      {
+        "name": "FirstName",
+        "label": "First Name",
+        "type": "text"
+      },
+      {
+        "name": "LastName",
+        "label": "Last Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email",
+        "type": "email"
+      }
+    ]
+  ],
+  "list": [
+    [
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email Adress",
+        "type": "email"
+      }
+    ]
+  ]
+}
