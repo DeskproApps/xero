@@ -4,6 +4,7 @@ import {
 } from "@deskpro/app-sdk";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getContacts } from "../api/api";
 
 export const useLinkContact = () => {
   const { context } = useDeskproLatestAppContext();
@@ -47,11 +48,23 @@ export const useLinkContact = () => {
   const getContactId = useCallback(async () => {
     if (!context || !client || !deskproUser) return;
 
-    return (
+    const linkedContact = (
       await client
         .getEntityAssociation("linkedXeroContacts", deskproUser.id)
         .list()
     )[0];
+
+    if (linkedContact) return linkedContact;
+
+    const userEmail = deskproUser.primaryEmail;
+
+    const userInXero = await getContacts(client, userEmail);
+
+    if (userInXero.Contacts.length !== 0) {
+      await linkContact(userInXero.Contacts[0].ContactID);
+
+      return userInXero.Contacts[0].ContactID;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, context]);
 
