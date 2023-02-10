@@ -1,9 +1,14 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import styled from "styled-components";
 import { Stack, H2, useDeskproAppTheme } from "@deskpro/app-sdk";
 
-import type { Props as TextBlockWithLabelProps } from "../TextBlockWithLabel/TextBlockWithLabel";
 import { GreyTitle } from "../../styles";
+
+type TextBlockWithLabelProps = {
+  label?: string | ReactElement;
+  text?: string | number | ReactElement;
+  marginBottom?: number;
+};
 
 export type Props = {
   leftLabel: TextBlockWithLabelProps["label"];
