@@ -28,7 +28,7 @@ jest.mock("../../src/api/api", () => {
         {
           ContactID: 1,
           Name: "John Doe",
-          EmailAdress: "johndoe@gmail.com",
+          EmailAddress: "johndoe@gmail.com",
         },
       ],
     }),
