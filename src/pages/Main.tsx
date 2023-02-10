@@ -35,7 +35,14 @@ export const Main = () => {
   const contactQuery = useQueryWithClient(
     QueryKeys.CONTACT_BY_ID,
     (client) => getContactById(client, contactId as string),
-    { enabled: !!contactId }
+    {
+      enabled: !!contactId,
+      onError: async () => {
+        await unlinkContact();
+
+        navigate("/findCreate/account");
+      },
+    }
   );
 
   const notesQuery = useQueryWithClient(
@@ -46,7 +53,7 @@ export const Main = () => {
 
   const purchaseOrderQuery = useQueryWithClient(
     QueryKeys.PURCHASE_ORDERS_BY_CONTACT_ID,
-    (client) => getPurchaseOrdersByContactId(client, contactId as string),
+    (client) => getPurchaseOrdersByContactId(client),
     { enabled: !!contactId }
   );
 
@@ -103,12 +110,12 @@ export const Main = () => {
   }, [context, client]);
 
   useDeskproAppEvents({
-    onElementEvent(id) {
+    async onElementEvent(id) {
       switch (id) {
         case "xeroMenuButton":
-          unlinkContact();
+          await unlinkContact();
 
-          navigate(-1);
+          navigate("/findCreate/account");
 
           return;
       }
@@ -125,14 +132,16 @@ export const Main = () => {
   const bills = billsQuery.data?.Invoices;
   const invoices = invoiceQuery.data?.Invoices;
   const quotes = quotesQuery.data?.Quotes;
-  const purchaseOrders = purchaseOrderQuery.data?.PurchaseOrders;
+  const purchaseOrders = purchaseOrderQuery.data?.PurchaseOrders.filter(
+    (e) => e.Contact.ContactID === contactId
+  );
   const notes = notesQuery.data?.HistoryRecords.filter(
     (e) => e.Changes === "Note"
   );
 
   return (
     <Stack vertical>
-      {contactQuery.isSuccess && (
+      {contact && (
         <Stack style={{ width: "100%" }}>
           <FieldMapping
             fields={[contact]}
@@ -143,7 +152,7 @@ export const Main = () => {
           />
         </Stack>
       )}
-      {invoiceQuery.data && (
+      {invoices && invoices?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
           <P2 style={{ fontSize: "14px" }}>Invoices ({invoices?.length})</P2>
           <FieldMapping
@@ -155,7 +164,7 @@ export const Main = () => {
           />
         </Stack>
       )}
-      {billsQuery.data && (
+      {bills && bills?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
           <P2 style={{ fontSize: "14px" }}>Bills ({bills?.length})</P2>
           <FieldMapping
@@ -167,7 +176,7 @@ export const Main = () => {
           />
         </Stack>
       )}
-      {quotesQuery.isSuccess && (
+      {quotes && quotes?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
           <P2 style={{ fontSize: "14px" }}>Quotes ({quotes?.length})</P2>
           <FieldMapping
@@ -179,7 +188,7 @@ export const Main = () => {
           />
         </Stack>
       )}
-      {purchaseOrderQuery.isSuccess && (
+      {purchaseOrders && purchaseOrders?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
           <P2 style={{ fontSize: "14px" }}>
             Purchase Orders ({purchaseOrders?.length})
@@ -193,7 +202,7 @@ export const Main = () => {
           />
         </Stack>
       )}
-      {notesQuery.isSuccess && (
+      {notes && notes?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
           <P2 style={{ fontSize: "14px" }}>Notes ({notes?.length})</P2>
           <FieldMapping

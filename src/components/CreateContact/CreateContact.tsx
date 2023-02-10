@@ -18,6 +18,7 @@ import { FieldMappingInput } from "../FieldMappingInput/FieldMappingInput";
 import { IContact } from "../../types/contact";
 import { useLinkContact } from "../../hooks/hooks";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
+import { IContactList } from "../../api/types";
 
 export const CreateAccount = () => {
   const { linkContact } = useLinkContact();
@@ -25,8 +26,8 @@ export const CreateAccount = () => {
 
   const navigate = useNavigate();
 
-  const submitMutation = useQueryMutationWithClient<IContact>((client, data) =>
-    postContact(client, data)
+  const submitMutation = useQueryMutationWithClient<IContact, IContactList>(
+    (client, data) => postContact(client, data)
   );
 
   const {
@@ -43,7 +44,7 @@ export const CreateAccount = () => {
     if (!submitMutation.isSuccess) return;
 
     (async () => {
-      await linkContact((submitMutation.data as { Id: string })?.Id);
+      await linkContact(submitMutation.data.Contacts[0].ContactID);
 
       navigate("/");
     })();
@@ -113,7 +114,7 @@ export const CreateAccount = () => {
           <Button
             disabled={submitMutation.isLoading}
             text="Cancel"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             intent="secondary"
           ></Button>
         </Stack>

@@ -36,7 +36,7 @@ export const useLinkContact = () => {
         ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
         .set(contactId);
 
-      navigate(-1);
+      navigate("/");
 
       setIsLinking(false);
     },
@@ -46,6 +46,7 @@ export const useLinkContact = () => {
 
   const getContactId = useCallback(async () => {
     if (!context || !client || !deskproUser) return;
+
     return (
       await client
         .getEntityAssociation("linkedXeroContacts", deskproUser.id)

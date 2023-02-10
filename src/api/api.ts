@@ -21,14 +21,9 @@ export const getNotesByContactId = (
 };
 
 export const getPurchaseOrdersByContactId = (
-  client: IDeskproClient,
-  contactId: string
+  client: IDeskproClient
 ): Promise<IPurchaseOrderList> => {
-  return installedRequest(
-    client,
-    `api.xro/2.0/PurchaseOrders?ContactIDs=${contactId}`,
-    "GET"
-  );
+  return installedRequest(client, `api.xro/2.0/PurchaseOrders`, "GET");
 };
 
 export const getQuotesByContactId = (
@@ -37,7 +32,7 @@ export const getQuotesByContactId = (
 ): Promise<IQuoteList> => {
   return installedRequest(
     client,
-    `api.xro/2.0/Quotes?ContactIDs=${contactId}`,
+    `api.xro/2.0/Quotes?ContactID=${contactId}`,
     "GET"
   );
 };
@@ -87,7 +82,7 @@ export const getContacts = (client: IDeskproClient, text?: string) => {
 export const postContact = (
   client: IDeskproClient,
   data: IContact
-): Promise<unknown> => {
+): Promise<IContactList> => {
   return installedRequest(client, "api.xro/2.0/Contacts", "POST", data);
 };
 
@@ -115,7 +110,7 @@ const installedRequest = async (
 
   let response = await fetch(`https://api.xero.com/${url.trim()}`, options);
 
-  if ([400, 401, 403].includes(response.status)) {
+  if ([400, 401, 403, 404].includes(response.status)) {
     let tokens;
     const refreshRequestOptions: RequestInit = {
       method: "POST",
