@@ -1,0 +1,23 @@
+{
+  "list": [
+    [
+      {
+        "name": "Details",
+        "label": "Text",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "User",
+        "label": "Created By",
+        "type": "text"
+      },
+      {
+        "name": "DateUTC",
+        "label": "Activity Date",
+        "type": "date"
+      }
+    ]
+  ]
+}

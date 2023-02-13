@@ -12,27 +12,22 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const GlobalAuth = () => {
   const { theme } = useDeskproAppTheme();
+  const [tenant, setTenant] = useState<string | undefined>(undefined);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.margin = "0px";
   }, []);
 
-  const {
-    callbackUrl,
-    signIn,
-    message,
-    authUrl,
-    tenants,
-    setSelectedTenant,
-    selectedTenant,
-  } = useGlobalAuth();
+  const { callbackUrl, signIn, message, authUrl, tenants, setSelectedTenant } =
+    useGlobalAuth();
 
   return (
-    <Stack vertical gap={10} style={{ margin: "0px" }}>
+    <Stack vertical gap={10} style={{ margin: "0px", height: "1000px" }}>
       {callbackUrl && (
         <>
           <H2 style={{ marginBottom: "5px" }}>Callback URL</H2>
@@ -64,7 +59,7 @@ export const GlobalAuth = () => {
           </P1>
         </>
       )}
-      {authUrl && (
+      {authUrl && !message?.success && (
         <Link to={authUrl} target="_blank">
           <Button
             text="Sign In"
@@ -83,21 +78,41 @@ export const GlobalAuth = () => {
       {tenants && (
         <Stack vertical>
           <H1>Please select the tenant you'd like to use:</H1>
-          <Stack vertical style={{ marginTop: "10px" }}>
-            {tenants.map((tenant, i) => (
-              <Stack gap={5} key={i}>
-                <Radio
-                  style={{
-                    color: theme.colors.grey500,
-                    fontWeight: "bold",
-                    fontSize: "16px",
+          <Stack vertical style={{ marginTop: "10px" }} gap={10}>
+            {!submitted && (
+              <Stack vertical gap={10}>
+                {tenants.map((tenantApi, i) => (
+                  <Stack gap={5} key={i}>
+                    <Radio
+                      style={{
+                        color: theme.colors.grey500,
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                      }}
+                      checked={tenant === tenantApi.tenantId}
+                      onChange={() => setTenant(tenantApi.tenantId)}
+                    />
+                    <H1>{tenantApi.tenantName}</H1>
+                  </Stack>
+                ))}
+                <Button
+                  text="Confirm"
+                  data-testid="submit-button"
+                  onClick={() => {
+                    if (!tenant) return;
+
+                    setSelectedTenant(tenant);
+                    setSubmitted(true);
                   }}
-                  checked={selectedTenant === tenant.tenantId}
-                  onChange={() => setSelectedTenant(tenant.tenantId)}
-                />
-                <H1>{tenant.tenantName}</H1>
+                ></Button>
               </Stack>
-            ))}
+            )}
+            <H1>
+              {submitted &&
+                `Selected ${
+                  tenants.find((e) => e.tenantId === tenant)?.tenantName
+                }.`}
+            </H1>
           </Stack>
         </Stack>
       )}

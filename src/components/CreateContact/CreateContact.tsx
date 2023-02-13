@@ -9,6 +9,7 @@ import {
   H0,
   H2,
   Stack,
+  useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { postContact } from "../../api/api";
@@ -18,15 +19,17 @@ import { FieldMappingInput } from "../FieldMappingInput/FieldMappingInput";
 import { IContact } from "../../types/contact";
 import { useLinkContact } from "../../hooks/hooks";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
+import { IContactList } from "../../api/types";
 
 export const CreateAccount = () => {
   const { linkContact } = useLinkContact();
+  const { context } = useDeskproLatestAppContext();
   const [schema, setSchema] = useState<ZodTypeAny>(z.object({}));
 
   const navigate = useNavigate();
 
-  const submitMutation = useQueryMutationWithClient<IContact>((client, data) =>
-    postContact(client, data)
+  const submitMutation = useQueryMutationWithClient<IContact, IContactList>(
+    (client, data) => postContact(client, data)
   );
 
   const {
@@ -35,15 +38,28 @@ export const CreateAccount = () => {
     handleSubmit,
     setValue,
     watch,
+    reset,
   } = useForm<IContact>({
     resolver: zodResolver(schema as ZodObject<any>),
   });
 
   useEffect(() => {
+    if (!context) return;
+
+    reset({
+      EmailAddress: context.data.user.primaryEmail,
+      FirstName: context.data.user.firstName,
+      LastName: context.data.user.lastName,
+      Name: context.data.user.name,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context]);
+
+  useEffect(() => {
     if (!submitMutation.isSuccess) return;
 
     (async () => {
-      await linkContact((submitMutation.data as { Id: string })?.Id);
+      await linkContact(submitMutation.data?.Contacts[0].ContactID);
 
       navigate("/");
     })();
@@ -113,7 +129,7 @@ export const CreateAccount = () => {
           <Button
             disabled={submitMutation.isLoading}
             text="Cancel"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             intent="secondary"
           ></Button>
         </Stack>

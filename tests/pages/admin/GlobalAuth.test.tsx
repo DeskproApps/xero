@@ -1,9 +1,7 @@
 import { lightTheme, ThemeProvider } from "@deskpro/deskpro-ui";
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react/";
-
-import { act } from "react-dom/test-utils";
-
 import React from "react";
+import { act } from "react-dom/test-utils";
 import { GlobalAuth } from "../../../src/pages/admin/GlobalAuth";
 import { mockTheme } from "../../__mocks__/themeMock";
 

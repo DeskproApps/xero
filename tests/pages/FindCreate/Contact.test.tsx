@@ -1,9 +1,7 @@
 import { lightTheme, ThemeProvider } from "@deskpro/deskpro-ui";
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react/";
-
-import * as APIFn from "../../../src/api/api";
-
 import React from "react";
+import * as APIFn from "../../../src/api/api";
 import { FindCreateAccount } from "../../../src/pages/FindCreate/Contact";
 
 const renderPage = () => {

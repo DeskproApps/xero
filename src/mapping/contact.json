@@ -44,7 +44,7 @@
     [
       {
         "name": "EmailAddress",
-        "label": "Email Adress",
+        "label": "Email Address",
         "type": "email"
       }
     ]

@@ -1,4 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
+
+interface IDefaultList {
+  Id: string;
+  Status: string;
+  ProviderName: string;
+  DateTimeUTC: string;
+}
 
 export type AuthTokens = {
   accessToken: string;
@@ -25,15 +33,134 @@ export interface IConnectToken {
   error?: string;
 }
 
-export interface IContactList {
-  Id: string;
+export interface IContactList extends IDefaultList {
+  Contacts: IContact[];
+}
+
+export interface IInvoiceList extends IDefaultList {
+  Invoices: IInvoice[];
+}
+export interface IQuoteList extends IDefaultList {
+  Quotes: IQuote[];
+}
+
+export interface IPurchaseOrderList extends IDefaultList {
+  PurchaseOrders: IPurchaseOrder[];
+}
+
+export interface IHistoryRecordList extends IDefaultList {
+  HistoryRecords: IHistoryRecord[];
+}
+
+export interface IHistoryRecord {
+  Changes: string;
+  DateUTCString: string;
+  DateUTC: string;
+  User: string;
+  Details: string;
+}
+
+export interface IPurchaseOrder {
+  PurchaseOrderID: string;
+  PurchaseOrderNumber: string;
+  DateString: string;
+  Date: string;
+  DeliveryAddress: string;
+  AttentionTo: string;
+  Telephone: string;
+  DeliveryInstructions: string;
+  HasErrors: boolean;
+  IsDiscounted: boolean;
+  Reference: string;
+  Type: string;
+  CurrencyRate: number;
+  CurrencyCode: string;
+  Contact: Contact;
+  BrandingThemeID: string;
   Status: string;
-  ProviderName: string;
-  DateTimeUTC: string;
-  Contacts: Contact[];
+  LineAmountTypes: string;
+  LineItems: LineItem[];
+  SubTotal: number;
+  TotalTax: number;
+  Total: number;
+  UpdatedDateUTC: string;
+  HasAttachments: boolean;
 }
 
 export interface Contact {
+  ContactID: string;
+  ContactStatus: string;
+  Name: string;
+  FirstName: string;
+  LastName: string;
+  Addresses: any[];
+  Phones: any[];
+  UpdatedDateUTC: string;
+  ContactGroups: any[];
+  DefaultCurrency: string;
+  ContactPersons: any[];
+  HasValidationErrors: boolean;
+}
+
+export interface LineItem {
+  ItemCode: string;
+  Description: string;
+  UnitAmount: number;
+  TaxType: string;
+  TaxAmount: number;
+  LineAmount: number;
+  AccountCode: string;
+  Tracking: any[];
+  Quantity: number;
+  LineItemID: string;
+}
+
+export interface IQuote {
+  QuoteID: string;
+  QuoteNumber: string;
+  Reference: string;
+  Terms: string;
+  Contact: Contact;
+  LineItems: LineItem[];
+  Date: string;
+  DateString: string;
+  ExpiryDate: string;
+  ExpiryDateString: string;
+  Status: string;
+  CurrencyRate: number;
+  CurrencyCode: string;
+  SubTotal: number;
+  TotalTax: number;
+  Total: number;
+  TotalDiscount: number;
+  Title: string;
+  Summary: string;
+  BrandingThemeID: string;
+  UpdatedDateUTC: string;
+  LineAmountTypes: string;
+}
+
+export interface Contact {
+  ContactID: string;
+  Name: string;
+  EmailAddress: string;
+  FirstName: string;
+  LastName: string;
+}
+
+export interface LineItem {
+  LineItemID: string;
+  Description: string;
+  UnitAmount: number;
+  DiscountAmount: number;
+  LineAmount: number;
+  ItemCode: string;
+  Quantity: number;
+  TaxAmount: number;
+  Tracking: any[];
+}
+
+export interface IContact {
   ContactID: string;
   ContactStatus: string;
   Name: string;
@@ -75,4 +202,58 @@ export enum PhoneType {
   Default = "DEFAULT",
   Fax = "FAX",
   Mobile = "MOBILE",
+}
+
+export interface IInvoice {
+  Type: string;
+  InvoiceID: string;
+  InvoiceNumber: string;
+  Reference: string;
+  Payments: any[];
+  CreditNotes: any[];
+  Prepayments: any[];
+  Overpayments: any[];
+  AmountDue: number;
+  AmountPaid: number;
+  AmountCredited: number;
+  CurrencyRate: number;
+  IsDiscounted: boolean;
+  HasAttachments: boolean;
+  InvoiceAddresses: any[];
+  HasErrors: boolean;
+  InvoicePaymentServices: any[];
+  Contact: Contact;
+  DateString: string;
+  Date: string;
+  DueDateString: string;
+  DueDate: string;
+  BrandingThemeID: string;
+  Status: string;
+  LineAmountTypes: string;
+  LineItems: LineItem[];
+  SubTotal: number;
+  TotalTax: number;
+  Total: number;
+  UpdatedDateUTC: string;
+  CurrencyCode: string;
+}
+
+export interface LineItem {
+  ItemCode: string;
+  Description: string;
+  UnitAmount: number;
+  TaxType: string;
+  TaxAmount: number;
+  LineAmount: number;
+  AccountCode: string;
+  Item: Item;
+  Tracking: any[];
+  Quantity: number;
+  LineItemID: string;
+}
+
+export interface Item {
+  ItemID: string;
+  Name: string;
+  Code: string;
 }

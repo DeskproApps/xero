@@ -1,7 +1,7 @@
 export interface IContact {
-  contactName: string;
-  accountNumber: number;
-  firstName: string;
-  lastName: string;
-  email: string;
+  Name: string;
+  AccountNumber: number;
+  FirstName: string;
+  LastName: string;
+  EmailAddress: string;
 }

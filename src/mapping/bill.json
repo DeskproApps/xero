@@ -2,26 +2,26 @@
   "list": [
     [
       {
-        "name": "reference",
+        "name": "Reference",
         "label": "Reference",
         "type": "text"
       },
       {
-        "name": "status",
+        "name": "Status",
         "label": "Status",
         "type": "label"
       }
     ],
     [
       {
-        "name": "date",
+        "name": "Date",
         "label": "Date",
         "type": "date"
       },
       {
-        "name": "due",
+        "name": "AmountDue",
         "label": "Due",
-        "type": "text"
+        "type": "currency"
       }
     ]
   ]

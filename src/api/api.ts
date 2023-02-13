@@ -1,6 +1,63 @@
 import { IDeskproClient, proxyFetch } from "@deskpro/app-sdk";
 import { IContact } from "../types/contact";
-import { IContactList, RequestMethod } from "./types";
+import {
+  IContactList,
+  IHistoryRecordList,
+  IInvoiceList,
+  IPurchaseOrderList,
+  IQuoteList,
+  RequestMethod,
+} from "./types";
+
+export const getNotesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IHistoryRecordList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Contacts/${contactId}/history`,
+    "GET"
+  );
+};
+
+export const getPurchaseOrdersByContactId = (
+  client: IDeskproClient
+): Promise<IPurchaseOrderList> => {
+  return installedRequest(client, `api.xro/2.0/PurchaseOrders`, "GET");
+};
+
+export const getQuotesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IQuoteList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Quotes?ContactID=${contactId}`,
+    "GET"
+  );
+};
+
+export const getBillsByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Invoices?ContactIDs=${contactId}&Where=Type=="ACCPAY"`,
+    "GET"
+  );
+};
+
+export const getInvoicesByContactId = (
+  client: IDeskproClient,
+  contactId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/Invoices?ContactIDs=${contactId}&Where=Type!="ACCPAY"`,
+    "GET"
+  );
+};
 
 export const getContactById = (
   client: IDeskproClient,
@@ -9,13 +66,16 @@ export const getContactById = (
   return installedRequest(client, `api.xro/2.0/Contacts?Ids=${id}`, "GET");
 };
 
-export const getContacts = (client: IDeskproClient, text?: string) => {
+export const getContacts = (
+  client: IDeskproClient,
+  text?: string
+): Promise<IContactList> => {
   return installedRequest(
     client,
     `api.xro/2.0/Contacts${
       text &&
       `?where=${encodeURIComponent(
-        `EmailAddress!=null&&EmailAddress.Contains("${text}")||Name!=null&&Name.Contains("${text}")||AccountNumber!=null&&AccountNumber.Contains("${text}")`
+        `EmailAddress!=null&&EmailAddress.ToLower().Contains("${text.toLowerCase()}")||Name!=null&&Name.ToLower().Contains("${text.toLowerCase()}")||AccountNumber!=null&&AccountNumber.ToLower().Contains("${text.toLowerCase()}")`
       )}`
     }`,
     "GET"
@@ -25,7 +85,7 @@ export const getContacts = (client: IDeskproClient, text?: string) => {
 export const postContact = (
   client: IDeskproClient,
   data: IContact
-): Promise<unknown> => {
+): Promise<IContactList> => {
   return installedRequest(client, "api.xro/2.0/Contacts", "POST", data);
 };
 
@@ -53,16 +113,14 @@ const installedRequest = async (
 
   let response = await fetch(`https://api.xero.com/${url.trim()}`, options);
 
-  if ([400, 401, 403].includes(response.status)) {
+  if ([400, 401, 403, 404].includes(response.status)) {
     let tokens;
     const refreshRequestOptions: RequestInit = {
       method: "POST",
       body: `grant_type=refresh_token&refresh_token=[[oauth/global/refresh_token]]`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${btoa(
-          `39231CB7CCA04847816E7723A201FA75:jRH2EVhiuNBN4QqvGhUCku81O8j4eyCtM7pVI1EWWxKlxaLn`
-        )}`,
+        Authorization: `Basic __client_id+':'+client_secret.base64__`,
       },
     };
 
