@@ -19,6 +19,7 @@ import { FindCreateAccount } from "./pages/FindCreate/Contact";
 import { query } from "./utils/query";
 import { LoadingSpinner } from "@deskpro/app-sdk";
 import { Suspense } from "react";
+import { ViewList } from "./pages/ViewList/ViewList";
 
 function App() {
   return (
@@ -31,6 +32,12 @@ function App() {
                 <Routes>
                   <Route path="/">
                     <Route index element={<Main />} />
+                    <Route path="list">
+                      <Route path=":object/:contactId" element={<ViewList />} />
+                    </Route>
+                    <Route path="view">
+                      <Route path=":object/:id" element={<ViewList />} />
+                    </Route>
                     <Route path="admin">
                       <Route path="globalauth" element={<GlobalAuth />} />
                     </Route>

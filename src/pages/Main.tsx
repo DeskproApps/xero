@@ -76,6 +76,10 @@ export const Main = () => {
   );
 
   useInitialisedDeskproAppClient((client) => {
+    client.setTitle("Xero");
+
+    client.deregisterElement("xeroLink");
+
     client.registerElement("refreshButton", { type: "refresh_button" });
 
     client.registerElement("xeroMenuButton", {
@@ -90,10 +94,6 @@ export const Main = () => {
         },
       ],
     });
-  });
-
-  useInitialisedDeskproAppClient((client) => {
-    client.setTitle("Xero");
   });
 
   useEffect(() => {
@@ -151,6 +151,7 @@ export const Main = () => {
             fields={[contact]}
             metadata={contactJson.list}
             idKey="ContactID"
+            internalUrl={`/list/contact/${contactId}`}
             externalUrl={`Contacts/View/`}
             titleKeyName="Name"
           />
