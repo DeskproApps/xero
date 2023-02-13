@@ -36,7 +36,7 @@ export const ViewList = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any
-  >((client, data) => data.function(client, data.ContactID));
+  >((client, data) => data?.function(client, data.ContactID));
 
   useEffect(() => {
     switch (object) {

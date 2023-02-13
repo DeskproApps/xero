@@ -95,10 +95,6 @@ jest.mock("../../src/api/api", () => {
   };
 });
 
-jest.mock("../../src/components/LogoAndLinkButton/LogoAndLinkButton", () => ({
-  LogoAndLinkButton: () => <div>LogoAndLinkButton</div>,
-}));
-
 describe("Main", () => {
   test("Main page should show all data correctly", async () => {
     const { getByText, getAllByText } = renderPage();

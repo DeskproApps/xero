@@ -19,6 +19,15 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => jest.fn(),
 }));
 
+jest.mock("./src/components/LogoAndLinkButton/LogoAndLinkButton", () => ({
+  LogoAndLinkButton: () => <div>LogoAndLinkButton</div>,
+}));
+
+jest.mock("./src/styles.ts", () => ({
+  ...jest.requireActual("./src/styles.ts"),
+  StyledLink: () => <div>StyledLink</div>,
+}));
+
 jest.mock("./src/hooks/useQueryWithClient.ts", () => ({
   ...jest.requireActual("./src/hooks/useQueryWithClient.ts"),
   useQueryWithClient: (queryKey: string, queryFn: () => any, options: any) => {
@@ -38,11 +47,15 @@ jest.mock("./src/hooks/useQueryWithClient.ts", () => ({
     };
   },
   useQueryMutationWithClient: (queryFn: () => any) => {
+    let data;
+
     return {
-      mutate: queryFn,
+      mutate: () => {
+        data = queryFn();
+      },
       isSuccess: true,
       isLoading: false,
-      data: null,
+      data,
     };
   },
 }));

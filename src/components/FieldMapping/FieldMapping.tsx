@@ -47,7 +47,7 @@ export const FieldMapping = ({
               ></LogoAndLinkButton>
             )}
           </Stack>
-          {metadata?.map((metadataFields) => {
+          {metadata?.map((metadataFields, i) => {
             const usableFields = metadataFields.map((metadataField) => {
               let value;
               switch (metadataField.type) {
@@ -128,7 +128,7 @@ export const FieldMapping = ({
 
             return usableFields.length === 1 ? (
               usableFields[0].value && (
-                <Stack vertical gap={4}>
+                <Stack vertical gap={4} key={i}>
                   <GreyTitle theme={theme}>{usableFields[0].key}</GreyTitle>
                   <H2 style={{ whiteSpace: "pre-line" }}>
                     {usableFields[0].value}
@@ -137,6 +137,7 @@ export const FieldMapping = ({
               )
             ) : (
               <TwoColumn
+                key={i}
                 leftLabel={usableFields[0].key}
                 leftText={usableFields[0].value || "⠀"}
                 rightLabel={usableFields[1].key}
