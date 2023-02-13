@@ -58,7 +58,7 @@ export const FieldMapping = ({
                         /\/Date\((?<date>.+?)(\+|\))/
                       ).groups.date
                     )
-                  ).toLocaleDateString();
+                  ).toLocaleDateString("en-UK");
 
                   break;
                 case "label": {
@@ -78,27 +78,69 @@ export const FieldMapping = ({
                   break;
                 }
 
+                case "url": {
+                  value = (
+                    <StyledLink to={field[metadataField.name]}>
+                      {field[metadataField.name]}
+                    </StyledLink>
+                  );
+
+                  break;
+                }
+
+                case "address": {
+                  value = (
+                    Object.values(
+                      field.Addresses?.find(
+                        (e: { AddressType: string }) =>
+                          e.AddressType === metadataField.name
+                      ) ?? {}
+                    ) as string[]
+                  )
+                    ?.filter((e) => e !== "POBOX")
+                    .reduce((acc, cur) => acc + cur + "\n", "");
+
+                  break;
+                }
+
+                case "phone": {
+                  const phoneFields = field.Phones?.find(
+                    (e: { PhoneType: string }) =>
+                      e.PhoneType === metadataField.name
+                  );
+
+                  value = phoneFields?.PhoneNumber
+                    ? `+${phoneFields?.PhoneCountryCode} ${phoneFields?.PhoneAreaCode} ${phoneFields?.PhoneNumber}`
+                    : null;
+
+                  break;
+                }
+
                 default:
                   value = field[metadataField.name];
               }
 
               return {
                 key: metadataField.label,
-                value: value || "⠀",
+                value: value,
               };
             });
 
             return usableFields.length === 1 ? (
-              <Stack vertical gap={4}>
-                <GreyTitle theme={theme}>{usableFields[0].key}</GreyTitle>
-                <H2>{usableFields[0].value}</H2>
-              </Stack>
+              usableFields[0].value && (
+                <Stack vertical gap={4}>
+                  <GreyTitle theme={theme}>{usableFields[0].key}</GreyTitle>
+                  <H2 style={{ whiteSpace: "pre-line" }}>
+                    {usableFields[0].value}
+                  </H2>
+                </Stack>
+              )
             ) : (
               <TwoColumn
                 leftLabel={usableFields[0].key}
-                leftText={usableFields[0].value}
+                leftText={usableFields[0].value || "⠀"}
                 rightLabel={usableFields[1].key}
-                rightText={usableFields[1].value}
+                rightText={usableFields[1].value || "⠀"}
               />
             );
           })}
