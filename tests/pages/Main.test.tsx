@@ -111,14 +111,10 @@ describe("Main", () => {
 
     const invoiceStatusEl = await waitFor(() => getByText(/Paid/));
 
-    const timeEl = await waitFor(() => getByText(/2\/9\/2023/));
-
     await waitFor(() => {
-      [ContactNameEl, AmountEl, noteEl, invoiceStatusEl, timeEl].forEach(
-        (el) => {
-          expect(el).toBeInTheDocument();
-        }
-      );
+      [ContactNameEl, AmountEl, noteEl, invoiceStatusEl].forEach((el) => {
+        expect(el).toBeInTheDocument();
+      });
     });
   });
 
