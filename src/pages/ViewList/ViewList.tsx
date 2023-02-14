@@ -2,16 +2,18 @@ import {
   IDeskproClient,
   Spinner,
   Stack,
+  useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getContactById } from "../../api/api";
 import { FieldMapping } from "../../components/FieldMapping/FieldMapping";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
 import contactJson from "../../mapping/contact.json";
 
 export const ViewList = () => {
+  const navigate = useNavigate();
   const { object, contactId } = useParams();
 
   const correctJson = useMemo(() => {
@@ -46,6 +48,15 @@ export const ViewList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [object, contactId]);
+
+  useDeskproAppEvents({
+    async onElementEvent(id) {
+      switch (id) {
+        case "xeroHomeButton":
+          navigate("/redirect");
+      }
+    },
+  });
 
   if (!itemMutation.data || !correctJson) {
     return (

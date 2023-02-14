@@ -126,6 +126,8 @@ export const Main = () => {
           navigate("/findCreate/account");
 
           return;
+        case "xeroHomeButton":
+          navigate("/redirect");
       }
     },
   });
