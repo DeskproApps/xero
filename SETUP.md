@@ -9,13 +9,13 @@ To create the App, just click the "New App" button, and fill the following detai
 - **App Name** - The Name for your App (could be any name).
 - **Integration type** - The type of integration (in our case, Web App).
 - **Company or application URL** - Your company URL.
-- **Redirect URI** - The Deskpro redirect URI, found on the settings page of the Xero installation page.
+- **Redirect URI** - The Deskpro callback URL, found in the settings tab of the Xero installation page in Deskpro.
 
 [![](/docs/assets/setup/xero_new_app.png)](/docs/assets/setup/xero_new_app.png)
 
 After this you'll be redirected to your App in Xero. Click on the configuration tab on the left side of the screen, and on Deskpro Settings page, enter the following details:
 
-- **Xero Client Id** - The Xero Clieent Id found on the created application page.
+- **Xero Client Id** - The Xero Client Id found on the created application page.
 - **Xero Client Secret** - The Xero Client Secret found on the created application page, after clicking generate secret.
 
 Now, just click on "Sign In" and you'll be taken to a page to grant access to some of the details that will be used in the Deskpro Xero App, and you just need to click "Allow access".
