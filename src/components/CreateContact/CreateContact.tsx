@@ -68,7 +68,7 @@ export const CreateAccount = () => {
 
   useEffect(() => {
     const newObj: { [key: string]: ZodTypeAny } = {};
-    contactJson.view.flat().forEach((field: any) => {
+    contactJson.create.flat().forEach((field: any) => {
       if (field.type === "email") {
         newObj[field.name] = z.string().email().optional();
       }
@@ -79,7 +79,7 @@ export const CreateAccount = () => {
         newObj[field.name] = z.number().optional();
       }
     });
-    setSchema(getMetadataBasedSchema(contactJson.view.flat(), newObj));
+    setSchema(getMetadataBasedSchema(contactJson.create.flat(), newObj));
   }, []);
 
   useInitialisedDeskproAppClient((client) => {
@@ -93,7 +93,7 @@ export const CreateAccount = () => {
     >
       <Stack vertical gap={12}>
         <Stack vertical gap={12} style={{ width: "100%" }}>
-          {contactJson.view.flat().map((field, i) => {
+          {contactJson.create.flat().map((field, i) => {
             return (
               <Stack vertical gap={8} style={{ width: "100%" }} key={i}>
                 {field && field.name === "firstName" && <H0>Primary Person</H0>}

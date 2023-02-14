@@ -1,5 +1,8 @@
 {
-  "view": [
+  "idKey": "ContactId",
+  "titleKeyName": "Name",
+  "externalUrl": "Contacts/View/",
+  "create": [
     [
       {
         "name": "Name",
@@ -46,6 +49,64 @@
         "name": "EmailAddress",
         "label": "Email Address",
         "type": "email"
+      }
+    ]
+  ],
+  "view": [
+    [
+      {
+        "name": "Name",
+        "label": "Primary Person",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Primary Email",
+        "type": "email"
+      }
+    ],
+    [
+      {
+        "name": "DEFAULT",
+        "label": "Phone",
+        "type": "phone"
+      }
+    ],
+    [
+      {
+        "name": "MOBILE",
+        "label": "Mobile",
+        "type": "phone"
+      }
+    ],
+    [
+      {
+        "name": "FAX",
+        "label": "Fax",
+        "type": "phone"
+      }
+    ],
+    [
+      {
+        "name": "DDI",
+        "label": "Direct Dial",
+        "type": "phone"
+      }
+    ],
+    [
+      {
+        "name": "Website",
+        "label": "Website",
+        "type": "url"
+      }
+    ],
+    [
+      {
+        "name": "POBOX",
+        "label": "Postal Address",
+        "type": "address"
       }
     ]
   ]
