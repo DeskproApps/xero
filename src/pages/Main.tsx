@@ -82,6 +82,10 @@ export const Main = () => {
 
     client.registerElement("refreshButton", { type: "refresh_button" });
 
+    client.registerElement("xeroHomeButton", {
+      type: "home_button",
+    });
+
     client.registerElement("xeroMenuButton", {
       type: "menu",
       items: [

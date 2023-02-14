@@ -14,4 +14,5 @@ export const StyledLink = styled(Link)`
     to ? theme.colors.cyan100 : theme.colors.black100};
   text-decoration: none;
   font-weight: 500;
+  cursor: ${({ to }) => (to ? "pointer" : "default")};
 `;
