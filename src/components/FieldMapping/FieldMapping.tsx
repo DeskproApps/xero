@@ -79,10 +79,12 @@ export const FieldMapping = ({
                 }
 
                 case "url": {
-                  value = (
+                  value = field[metadataField.name] ? (
                     <StyledLink to={field[metadataField.name]}>
                       {field[metadataField.name]}
                     </StyledLink>
+                  ) : (
+                    ""
                   );
 
                   break;
@@ -99,6 +101,7 @@ export const FieldMapping = ({
                   )
                     ?.filter((e) => e !== "POBOX")
                     .reduce((acc, cur) => acc + cur + "\n", "");
+                  value = value.trim() === "" ? null : value;
 
                   break;
                 }
