@@ -1,5 +1,7 @@
 {
   "externalUrl": "Accounts/Receivable/Quotes/Edit/",
+  "titleKeyName": "Title",
+  "idKey": "QuoteID",
   "list": [
     [
       {
@@ -23,6 +25,103 @@
         "name": "⠀",
         "label": "⠀",
         "type": "⠀"
+      }
+    ]
+  ],
+  "main": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Date",
+        "label": "Date",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "⠀",
+        "label": "⠀",
+        "type": "⠀"
+      }
+    ]
+  ],
+  "view": [
+    [
+      {
+        "name": "",
+        "label": "",
+        "type": "lineitem"
+      }
+    ],
+    [
+      {
+        "name": "SubTotal",
+        "label": "SubTotal",
+        "type": "currency"
+      },
+      {
+        "name": "TotalTax",
+        "label": "Total VAT",
+        "type": "currency"
+      },
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      }
+    ],
+    [
+      {
+        "name": "Name",
+        "label": "To",
+        "type": "contact"
+      }
+    ],
+    [
+      {
+        "name": "Status",
+        "label": "Invoice Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "Date",
+        "label": "Date Issued",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "ExpiryDate",
+        "label": "Expiry Date",
+        "type": "date"
       }
     ]
   ]

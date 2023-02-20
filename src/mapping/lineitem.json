@@ -1,0 +1,33 @@
+{
+  "view": [
+    [
+      {
+        "name": "ItemCode",
+        "label": "",
+        "type": "text"
+      },
+      {
+        "name": "Description",
+        "label": "",
+        "type": "text"
+      },
+      {
+        "name": "LineAmount",
+        "label": "",
+        "type": "currency"
+      }
+    ],
+    [
+      {
+        "name": "Quantity",
+        "label": "Quantity",
+        "type": "text"
+      },
+      {
+        "name": "TaxAmount",
+        "label": "Tax",
+        "type": "currency"
+      }
+    ]
+  ]
+}

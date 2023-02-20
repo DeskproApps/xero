@@ -1,6 +1,8 @@
 {
-  "externalUrl": "AccountsPayable/View.aspx?invoiceid=",
-  "list": [
+  "externalUrl": "AccountsReceivable/View.aspx?invoiceid=",
+  "idKey": "InvoiceID",
+  "titleKeyName": "InvoiceNumber",
+  "main": [
     [
       {
         "name": "Reference",
@@ -23,6 +25,115 @@
         "name": "AmountDue",
         "label": "Due",
         "type": "currency"
+      }
+    ]
+  ],
+  "list": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Status",
+        "label": "Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      },
+      {
+        "name": "AmountDue",
+        "label": "Amount Due",
+        "type": "currency"
+      }
+    ],
+    [
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "Paid",
+        "label": "Paid",
+        "type": "currency"
+      }
+    ]
+  ],
+  "view": [
+    [
+      {
+        "name": "",
+        "label": "",
+        "type": "lineitem"
+      }
+    ],
+    [
+      {
+        "name": "SubTotal",
+        "label": "SubTotal",
+        "type": "currency"
+      },
+      {
+        "name": "TotalTax",
+        "label": "Total VAT",
+        "type": "currency"
+      },
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      }
+    ],
+    [
+      {
+        "name": "Name",
+        "label": "To",
+        "type": "contact"
+      }
+    ],
+    [
+      {
+        "name": "Status",
+        "label": "Invoice Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "Date",
+        "label": "Date Issued",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
       }
     ]
   ]

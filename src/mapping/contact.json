@@ -52,6 +52,22 @@
       }
     ]
   ],
+  "main": [
+    [
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email Address",
+        "type": "email"
+      }
+    ]
+  ],
   "view": [
     [
       {

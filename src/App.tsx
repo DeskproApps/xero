@@ -35,10 +35,16 @@ function App() {
                     <Route path="/redirect" element={<Redirect />} />
                     <Route index element={<Main />} />
                     <Route path="list">
-                      <Route path=":object/:contactId" element={<ViewList />} />
+                      <Route
+                        path=":objectName/:objectId"
+                        element={<ViewList />}
+                      />
                     </Route>
                     <Route path="view">
-                      <Route path=":object/:id" element={<ViewList />} />
+                      <Route
+                        path=":objectName/:objectId"
+                        element={<ViewList />}
+                      />
                     </Route>
                     <Route path="admin">
                       <Route path="globalauth" element={<GlobalAuth />} />
