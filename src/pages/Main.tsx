@@ -161,10 +161,7 @@ export const Main = () => {
       )}
       {invoices && invoices?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink
-            to={`/list/invoice/${contactId}`}
-            style={{ fontSize: "14px" }}
-          >
+          <StyledLink to={`/list/invoice/${contactId}`}>
             Invoices ({invoices?.length})
           </StyledLink>
           <FieldMapping
@@ -179,10 +176,7 @@ export const Main = () => {
       )}
       {bills && bills?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink
-            to={`/list/bill/${contactId}`}
-            style={{ fontSize: "14px" }}
-          >
+          <StyledLink to={`/list/bill/${contactId}`}>
             Bills ({bills?.length})
           </StyledLink>
           <FieldMapping
@@ -197,10 +191,7 @@ export const Main = () => {
       )}
       {quotes && quotes?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink
-            to={`/list/quote/${contactId}`}
-            style={{ fontSize: "14px" }}
-          >
+          <StyledLink to={`/list/quote/${contactId}`}>
             Quotes ({quotes?.length})
           </StyledLink>
           <FieldMapping
@@ -215,10 +206,7 @@ export const Main = () => {
       )}
       {purchaseOrders && purchaseOrders?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink
-            style={{ fontSize: "14px" }}
-            to={`/list/purchaseorder/${contactId}`}
-          >
+          <StyledLink to={`/list/purchaseorder/${contactId}`}>
             Purchase Orders ({purchaseOrders?.length})
           </StyledLink>
           <FieldMapping
@@ -233,10 +221,7 @@ export const Main = () => {
       )}
       {notes && notes?.length !== 0 && (
         <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink
-            to={`/list/note/${contactId}`}
-            style={{ fontSize: "14px" }}
-          >
+          <StyledLink to={`/list/note/${contactId}`}>
             Notes ({notes?.length})
           </StyledLink>
           <FieldMapping

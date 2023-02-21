@@ -12,6 +12,9 @@
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --verbose false",
     "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage"
   },
+  "peerDependencies": {
+    "@deskpro/deskpro-ui": "^6.2.0"
+  },
   "dependencies": {
     "@deskpro/app-sdk": "1.2.8",
     "@heroicons/react": "1.0.6",

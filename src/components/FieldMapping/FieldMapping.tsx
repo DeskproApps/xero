@@ -1,5 +1,6 @@
-import { H1, H2, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
-import { GreyTitle, StyledLink } from "../../styles";
+import { H1, H3, P11, P8, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { P5 } from "@deskpro/deskpro-ui";
+import { StyledLink } from "../../styles";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { LogoAndLinkButton } from "../LogoAndLinkButton/LogoAndLinkButton";
 import { SideColumns } from "../SideColumns/SideColumns";
@@ -23,8 +24,8 @@ const SpaceBetweenFields = ({
         width: "100%",
       }}
     >
-      <H1 style={{ fontSize: "14px" }}>{field.key}:</H1>
-      <H1 style={{ fontSize: "14px" }}>{field.value}</H1>
+      <H1>{field.key}:</H1>
+      <H1>{field.value}</H1>
     </Stack>
   );
 };
@@ -88,10 +89,12 @@ export const FieldMapping = ({
                 return (
                   usableFields[0].value && (
                     <Stack vertical gap={4} key={i}>
-                      <GreyTitle theme={theme}>{usableFields[0].key}</GreyTitle>
-                      <H2 style={{ whiteSpace: "pre-line" }}>
+                      <P8 style={{ color: theme.colors.grey80 }}>
+                        {usableFields[0].key}
+                      </P8>
+                      <P5 style={{ whiteSpace: "pre-line" }}>
                         {usableFields[0].value}
-                      </H2>
+                      </P5>
                     </Stack>
                   )
                 );
@@ -106,16 +109,12 @@ export const FieldMapping = ({
                     key={i}
                   >
                     <Stack vertical gap={4}>
-                      <H2 theme={theme} style={{ fontSize: "14px" }}>
-                        {usableFields[0].value}
-                      </H2>
-                      <GreyTitle style={{ whiteSpace: "pre-line" }}>
+                      <P5 theme={theme}>{usableFields[0].value}</P5>
+                      <P11 style={{ whiteSpace: "pre-line" }}>
                         {usableFields[1].value}
-                      </GreyTitle>
+                      </P11>
                     </Stack>
-                    <H1 style={{ fontSize: "14px" }}>
-                      {usableFields[2].value}
-                    </H1>
+                    <H3>{usableFields[2].value}</H3>
                   </Stack>
                 );
 

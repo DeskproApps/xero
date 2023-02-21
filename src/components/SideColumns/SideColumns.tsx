@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Stack, H2, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { Stack, useDeskproAppTheme, P8, P5 } from "@deskpro/app-sdk";
 
-import { GreyTitle } from "../../styles";
 import { ReactElement } from "react";
 
 const Divider = styled.div`
@@ -43,10 +42,10 @@ export const SideColumns = ({
             vertical
             gap={["string", "number"].includes(typeof item.value) ? 4 : 0}
           >
-            <GreyTitle theme={theme}>{item.key}</GreyTitle>
-            <H2>
+            <P8 style={{ color: theme.colors.grey80 }}>{item.key}</P8>
+            <P5>
               {item.value == null || item.value == "" ? "　" : item.value}
-            </H2>
+            </P5>
           </Stack>
         </Stack>
       ))}
