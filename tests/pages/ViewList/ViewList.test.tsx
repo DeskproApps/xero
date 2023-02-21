@@ -10,16 +10,6 @@ const renderPage = () => {
     </ThemeProvider>
   );
 };
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
-  useParams: () => ({
-    object: "contact",
-    contactId: 1,
-  }),
-}));
-
 jest.mock("../../../src/api/api", () => {
   return {
     ...jest.requireActual("../../../src/api/api"),
@@ -48,6 +38,18 @@ jest.mock("../../../src/hooks/useQueryWithClient", () => ({
       ],
     },
     mutate: () => {},
+  }),
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => jest.fn(),
+  useLocation: () => ({
+    pathname: "/view",
+  }),
+  useParams: () => ({
+    objectName: "contact",
+    objectId: 1,
   }),
 }));
 

@@ -1,6 +1,7 @@
 {
   "idKey": "ContactId",
   "titleKeyName": "Name",
+  "title": "Contact",
   "externalUrl": "Contacts/View/",
   "create": [
     [
@@ -37,6 +38,22 @@
     ]
   ],
   "list": [
+    [
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "EmailAddress",
+        "label": "Email Address",
+        "type": "email"
+      }
+    ]
+  ],
+  "main": [
     [
       {
         "name": "Name",

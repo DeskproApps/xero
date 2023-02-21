@@ -65,3 +65,16 @@ export const currencyCodeToSymbol = (currencyCode: string) => {
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
+
+export const getFnKey = (name: string) => {
+  switch (name) {
+    case "bill":
+      return "Invoices";
+    case "note":
+      return "HistoryRecords";
+    case "purchaseorder":
+      return "PurchaseOrders";
+    default:
+      return `${capitalizeFirstLetter(name)}s`;
+  }
+};

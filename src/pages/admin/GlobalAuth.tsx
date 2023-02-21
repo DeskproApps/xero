@@ -43,7 +43,7 @@ export const GlobalAuth = () => {
                   text="Copy"
                   icon={faCopy}
                   intent="secondary"
-                  style={{ padding: "14px", boxShadow: "none" }}
+                  style={{ boxShadow: "none" }}
                 />
               </CopyToClipboard>
             </Stack>

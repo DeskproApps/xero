@@ -1,5 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
+
+export type APIArrayReturnTypes = IContact[] &
+  IInvoice &
+  IHistoryRecord &
+  IPurchaseOrder &
+  IQuote &
+  IContact &
+  Contact;
 
 interface IDefaultList {
   Id: string;
@@ -62,6 +69,7 @@ export interface IHistoryRecord {
 
 export interface IPurchaseOrder {
   PurchaseOrderID: string;
+  Paid: number;
   PurchaseOrderNumber: string;
   DateString: string;
   Date: string;
@@ -87,21 +95,6 @@ export interface IPurchaseOrder {
   HasAttachments: boolean;
 }
 
-export interface Contact {
-  ContactID: string;
-  ContactStatus: string;
-  Name: string;
-  FirstName: string;
-  LastName: string;
-  Addresses: any[];
-  Phones: any[];
-  UpdatedDateUTC: string;
-  ContactGroups: any[];
-  DefaultCurrency: string;
-  ContactPersons: any[];
-  HasValidationErrors: boolean;
-}
-
 export interface LineItem {
   ItemCode: string;
   Description: string;
@@ -110,7 +103,6 @@ export interface LineItem {
   TaxAmount: number;
   LineAmount: number;
   AccountCode: string;
-  Tracking: any[];
   Quantity: number;
   LineItemID: string;
 }
@@ -140,14 +132,6 @@ export interface IQuote {
   LineAmountTypes: string;
 }
 
-export interface Contact {
-  ContactID: string;
-  Name: string;
-  EmailAddress: string;
-  FirstName: string;
-  LastName: string;
-}
-
 export interface LineItem {
   LineItemID: string;
   Description: string;
@@ -157,7 +141,6 @@ export interface LineItem {
   ItemCode: string;
   Quantity: number;
   TaxAmount: number;
-  Tracking: any[];
 }
 
 export interface IContact {
@@ -209,19 +192,13 @@ export interface IInvoice {
   InvoiceID: string;
   InvoiceNumber: string;
   Reference: string;
-  Payments: any[];
-  CreditNotes: any[];
-  Prepayments: any[];
-  Overpayments: any[];
   AmountDue: number;
   AmountPaid: number;
   AmountCredited: number;
   CurrencyRate: number;
   IsDiscounted: boolean;
   HasAttachments: boolean;
-  InvoiceAddresses: any[];
   HasErrors: boolean;
-  InvoicePaymentServices: any[];
   Contact: Contact;
   DateString: string;
   Date: string;
@@ -247,9 +224,18 @@ export interface LineItem {
   LineAmount: number;
   AccountCode: string;
   Item: Item;
-  Tracking: any[];
   Quantity: number;
   LineItemID: string;
+}
+export interface Contact {
+  ContactID: string;
+  ContactStatus: string;
+  Name: string;
+  FirstName: string;
+  LastName: string;
+  UpdatedDateUTC: string;
+  DefaultCurrency: string;
+  HasValidationErrors: boolean;
 }
 
 export interface Item {

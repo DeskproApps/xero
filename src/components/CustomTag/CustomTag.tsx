@@ -3,7 +3,7 @@ import { RoundedLabelTag } from "@deskpro/deskpro-ui";
 import { capitalizeFirstLetter } from "../../utils/utils";
 
 type Props = {
-  title: string;
+  title: string | number;
 };
 
 export const CustomTag = ({ title }: Props) => {
@@ -46,7 +46,7 @@ export const CustomTag = ({ title }: Props) => {
 
   return (
     <RoundedLabelTag
-      label={capitalizeFirstLetter(title)}
+      label={capitalizeFirstLetter(title as string)}
       backgroundColor={color}
       textColor="white"
     />

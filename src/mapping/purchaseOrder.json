@@ -1,5 +1,8 @@
 {
   "externalUrl": "Accounts/Payable/PurchaseOrders/View/",
+  "titleKeyName": "PurchaseOrderNumber",
+  "title": "Purchase Order",
+  "idKey": "PurchaseOrderID",
   "list": [
     [
       {
@@ -23,6 +26,96 @@
         "name": "Total",
         "label": "Total",
         "type": "currency"
+      }
+    ]
+  ],
+  "main": [
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      },
+      {
+        "name": "Status",
+        "label": "Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "Date",
+        "label": "Date",
+        "type": "date"
+      },
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      }
+    ]
+  ],
+  "view": [
+    [
+      {
+        "name": "",
+        "label": "",
+        "type": "lineitem"
+      }
+    ],
+    [
+      {
+        "name": "SubTotal",
+        "label": "SubTotal",
+        "type": "currency"
+      },
+      {
+        "name": "TotalTax",
+        "label": "Total VAT",
+        "type": "currency"
+      },
+      {
+        "name": "Total",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      },
+      {
+        "name": "",
+        "label": "",
+        "type": ""
+      }
+    ],
+    [
+      {
+        "name": "Name",
+        "label": "To",
+        "type": "contact"
+      }
+    ],
+    [
+      {
+        "name": "Status",
+        "label": "Invoice Status",
+        "type": "label"
+      }
+    ],
+    [
+      {
+        "name": "Reference",
+        "label": "Reference",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "Date",
+        "label": "Date Issued",
+        "type": "date"
       }
     ]
   ]

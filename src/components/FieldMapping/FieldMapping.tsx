@@ -1,22 +1,50 @@
-import { H2, P2, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
-import { GreyTitle, StyledLink } from "../../styles";
-import { CustomTag } from "../CustomTag/CustomTag";
+import {
+  H1,
+  H3,
+  P11,
+  P8,
+  Stack,
+  useDeskproAppTheme,
+  P5,
+} from "@deskpro/app-sdk";
+import { StyledLink } from "../../styles";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { LogoAndLinkButton } from "../LogoAndLinkButton/LogoAndLinkButton";
-import { TwoColumn } from "../TwoColumns/TwoColumns";
+import { SideColumns } from "../SideColumns/SideColumns";
+import lineItemJson from "../../mapping/lineitem.json";
+import { IJson } from "../../types/json";
+import { ReactElement } from "react";
+import { mapFieldValues } from "../../utils/mapFieldValues";
+
+const SpaceBetweenFields = ({
+  field: field,
+}: {
+  field: {
+    key: string | number;
+    value: string | number | ReactElement;
+  };
+}) => {
+  return (
+    <Stack
+      style={{
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
+      <H1>{field.key}:</H1>
+      <H1>{field.value}</H1>
+    </Stack>
+  );
+};
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fields: any[];
   internalUrl?: string;
   externalUrl?: string;
-  metadata: {
-    name: string;
-    label: string;
-    type: string;
-  }[][];
-  titleKeyName: string;
-  idKey: string;
+  metadata: IJson["list"] | IJson["view"];
+  titleKeyName?: string;
+  idKey?: string;
 };
 
 export const FieldMapping = ({
@@ -24,22 +52,20 @@ export const FieldMapping = ({
   internalUrl,
   externalUrl,
   metadata,
-  titleKeyName,
-  idKey,
+  titleKeyName = "",
+  idKey = "",
 }: Props) => {
   const { theme } = useDeskproAppTheme();
 
   return (
     <Stack vertical gap={4} style={{ width: "100%" }}>
       {fields.map((field, i) => (
-        <Stack vertical style={{ width: "100%" }} gap={7} key={i}>
+        <Stack vertical style={{ width: "100%" }} gap={5} key={i}>
           <Stack style={{ justifyContent: "space-between", width: "100%" }}>
-            {internalUrl ? (
-              <StyledLink to={internalUrl}>
-                {field[titleKeyName] || i}
+            {internalUrl && (
+              <StyledLink to={`${internalUrl}${field[idKey]}`}>
+                {field[titleKeyName] || field.Reference || i}
               </StyledLink>
-            ) : (
-              <P2 style={{ fontSize: "14px" }}>{field[titleKeyName] || i}</P2>
             )}
             {externalUrl && (
               <LogoAndLinkButton
@@ -48,105 +74,76 @@ export const FieldMapping = ({
             )}
           </Stack>
           {metadata?.map((metadataFields, i) => {
-            const usableFields = metadataFields.map((metadataField) => {
-              let value;
-              switch (metadataField.type) {
-                case "date":
-                  value = new Date(
-                    Number(
-                      field[metadataField.name]?.match(
-                        /\/Date\((?<date>.+?)(\+|\))/
-                      ).groups.date
-                    )
-                  ).toLocaleDateString("en-UK");
+            const usableFields = mapFieldValues(metadataFields, field);
 
-                  break;
-                case "label": {
-                  value = (
-                    <CustomTag title={field[metadataField.name]}></CustomTag>
-                  );
+            if (usableFields.some((e) => e.value === "lineitem")) {
+              return (
+                <FieldMapping
+                  key={i}
+                  fields={field.LineItems.filter(
+                    (e: { UnitAmount: number }) => e.UnitAmount
+                  ).map((e: { CurrencyCode: string }) => ({
+                    ...e,
+                    CurrencyCode: field.CurrencyCode,
+                  }))}
+                  metadata={lineItemJson.view}
+                ></FieldMapping>
+              );
+            }
 
-                  break;
-                }
-
-                case "currency": {
-                  value = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: field.CurrencyCode,
-                  }).format(field[metadataField.name]);
-
-                  break;
-                }
-
-                case "url": {
-                  value = field[metadataField.name] ? (
-                    <StyledLink to={field[metadataField.name]}>
-                      {field[metadataField.name]}
-                    </StyledLink>
-                  ) : (
-                    ""
-                  );
-
-                  break;
-                }
-
-                case "address": {
-                  value = (
-                    Object.values(
-                      field.Addresses?.find(
-                        (e: { AddressType: string }) =>
-                          e.AddressType === metadataField.name
-                      ) ?? {}
-                    ) as string[]
+            switch (usableFields.length) {
+              case 1:
+                return (
+                  usableFields[0].value && (
+                    <Stack vertical gap={4} key={i}>
+                      <P8 style={{ color: theme?.colors.grey80 }}>
+                        {usableFields[0].key}
+                      </P8>
+                      <P5 style={{ whiteSpace: "pre-line" }}>
+                        {usableFields[0].value}
+                      </P5>
+                    </Stack>
                   )
-                    ?.filter((e) => e !== "POBOX")
-                    .reduce((acc, cur) => acc + cur + "\n", "");
-                  value = value.trim() === "" ? null : value;
+                );
+              case 4:
+              case 2:
+                return <SideColumns key={i} fields={usableFields} />;
 
-                  break;
-                }
+              case 3:
+                return (
+                  <Stack
+                    style={{ justifyContent: "space-between", width: "100%" }}
+                    key={i}
+                  >
+                    <Stack vertical gap={4}>
+                      <P5 theme={theme}>{usableFields[0].value}</P5>
+                      <P11 style={{ whiteSpace: "pre-line" }}>
+                        {usableFields[1].value}
+                      </P11>
+                    </Stack>
+                    <H3>{usableFields[2].value}</H3>
+                  </Stack>
+                );
 
-                case "phone": {
-                  const phoneFields = field.Phones?.find(
-                    (e: { PhoneType: string }) =>
-                      e.PhoneType === metadataField.name
-                  );
-
-                  value = phoneFields?.PhoneNumber
-                    ? `+${phoneFields?.PhoneCountryCode} ${phoneFields?.PhoneAreaCode} ${phoneFields?.PhoneNumber}`
-                    : null;
-
-                  break;
-                }
-
-                default:
-                  value = field[metadataField.name];
-              }
-
-              return {
-                key: metadataField.label,
-                value: value,
-              };
-            });
-
-            return usableFields.length === 1 ? (
-              usableFields[0].value && (
-                <Stack vertical gap={4} key={i}>
-                  <GreyTitle theme={theme}>{usableFields[0].key}</GreyTitle>
-                  <H2 style={{ whiteSpace: "pre-line" }}>
-                    {usableFields[0].value}
-                  </H2>
-                </Stack>
-              )
-            ) : (
-              <TwoColumn
-                key={i}
-                leftLabel={usableFields[0].key}
-                leftText={usableFields[0].value || "⠀"}
-                rightLabel={usableFields[1].key}
-                rightText={usableFields[1].value || "⠀"}
-              />
-            );
+              default:
+                return (
+                  <Stack gap={20} vertical style={{ width: "100%" }} key={i}>
+                    {usableFields
+                      .filter((e) => e.key)
+                      .map((usableField, usableFieldI) => (
+                        <Stack
+                          vertical
+                          style={{ width: "100%" }}
+                          key={usableFieldI}
+                        >
+                          <SpaceBetweenFields
+                            field={usableField}
+                          ></SpaceBetweenFields>
+                        </Stack>
+                      ))}
+                  </Stack>
+                );
+            }
           })}
           <HorizontalDivider />
         </Stack>

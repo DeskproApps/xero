@@ -9,21 +9,63 @@ import {
   RequestMethod,
 } from "./types";
 
-export const getNotesByContactId = (
+export const getNotesByContactId = async (
   client: IDeskproClient,
   contactId: string
 ): Promise<IHistoryRecordList> => {
-  return installedRequest(
+  const res = (await installedRequest(
     client,
     `api.xro/2.0/Contacts/${contactId}/history`,
+    "GET"
+  )) as IHistoryRecordList;
+
+  res.HistoryRecords = res.HistoryRecords.filter(
+    (record) => record.Changes === "Note"
+  );
+
+  return res;
+};
+
+export const getLineItemsById = (
+  client: IDeskproClient,
+  lineItemId: string
+): Promise<IPurchaseOrderList> => {
+  return installedRequest(client, `api.xro/2.0/Items/${lineItemId}`, "GET");
+};
+
+export const getPurchaseOrdersById = (
+  client: IDeskproClient,
+  purchaseOrderId: string
+): Promise<IPurchaseOrderList> => {
+  return installedRequest(
+    client,
+    `api.xro/2.0/PurchaseOrders/${purchaseOrderId}`,
     "GET"
   );
 };
 
-export const getPurchaseOrdersByContactId = (
-  client: IDeskproClient
+export const getPurchaseOrdersByContactId = async (
+  client: IDeskproClient,
+  contactId: string
 ): Promise<IPurchaseOrderList> => {
-  return installedRequest(client, `api.xro/2.0/PurchaseOrders`, "GET");
+  const res = (await installedRequest(
+    client,
+    `api.xro/2.0/PurchaseOrders`,
+    "GET"
+  )) as IPurchaseOrderList;
+
+  res.PurchaseOrders = res.PurchaseOrders.filter(
+    (record) => record.Contact.ContactID === contactId
+  );
+
+  return res;
+};
+
+export const getQuotesById = (
+  client: IDeskproClient,
+  quoteId: string
+): Promise<IQuoteList> => {
+  return installedRequest(client, `api.xro/2.0/Quotes/${quoteId}`, "GET");
 };
 
 export const getQuotesByContactId = (
@@ -37,6 +79,13 @@ export const getQuotesByContactId = (
   );
 };
 
+export const getBillsById = (
+  client: IDeskproClient,
+  billId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(client, `api.xro/2.0/Invoices/${billId}`, "GET");
+};
+
 export const getBillsByContactId = (
   client: IDeskproClient,
   contactId: string
@@ -46,6 +95,13 @@ export const getBillsByContactId = (
     `api.xro/2.0/Invoices?ContactIDs=${contactId}&Where=Type=="ACCPAY"`,
     "GET"
   );
+};
+
+export const getInvoicesById = (
+  client: IDeskproClient,
+  invoiceId: string
+): Promise<IInvoiceList> => {
+  return installedRequest(client, `api.xro/2.0/Invoices/${invoiceId}`, "GET");
 };
 
 export const getInvoicesByContactId = (
