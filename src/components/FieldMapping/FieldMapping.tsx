@@ -1,5 +1,12 @@
-import { H1, H3, P11, P8, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
-import { P5 } from "@deskpro/deskpro-ui";
+import {
+  H1,
+  H3,
+  P11,
+  P8,
+  Stack,
+  useDeskproAppTheme,
+  P5,
+} from "@deskpro/app-sdk";
 import { StyledLink } from "../../styles";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { LogoAndLinkButton } from "../LogoAndLinkButton/LogoAndLinkButton";
@@ -89,7 +96,7 @@ export const FieldMapping = ({
                 return (
                   usableFields[0].value && (
                     <Stack vertical gap={4} key={i}>
-                      <P8 style={{ color: theme.colors.grey80 }}>
+                      <P8 style={{ color: theme?.colors.grey80 }}>
                         {usableFields[0].key}
                       </P8>
                       <P5 style={{ whiteSpace: "pre-line" }}>

@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   '@deskpro/app-sdk': 1.2.8
-  '@deskpro/deskpro-ui': ^6.2.0
   '@heroicons/react': 1.0.6
   '@hookform/resolvers': ^2.9.10
   '@jest/globals': ^29.3.1
@@ -55,7 +54,6 @@ specifiers:
 
 dependencies:
   '@deskpro/app-sdk': 1.2.8_45719ea55af201dd921157d6e694b571
-  '@deskpro/deskpro-ui': 6.2.0_e411952371d0cb7a1cdbc78413ecc9c1
   '@heroicons/react': 1.0.6_react@18.2.0
   '@hookform/resolvers': 2.9.10_react-hook-form@7.43.0
   '@tanstack/react-query': 4.24.2_react-dom@18.2.0+react@18.2.0
@@ -574,43 +572,6 @@ packages:
       '@tippyjs/react': 4.2.6_react-dom@18.2.0+react@18.2.0
       '@typescript/lib-dom': /@types/web/0.0.86
       csstype: 3.1.0
-      formik: 2.2.9_react@18.2.0
-      framer-motion: 6.5.1_react-dom@18.2.0+react@18.2.0
-      pretty-bytes: 6.0.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-highlight-words: 0.17.0_react@18.2.0
-      react-is: 17.0.2
-      react-popper: 2.3.0_8fa1dcc48dc335937d24f9cc8f7f819a
-      simplebar: 5.3.9
-      simplebar-react: 2.4.3_react-dom@18.2.0+react@18.2.0
-      styled-components: 5.3.6_fa3acc110621e003f368ed3f60914608
-      tippy.js: 6.3.7
-      ts-pattern: 4.1.2
-      tslib: 2.4.1
-      type-fest: 2.19.0
-      use-debounce: 7.0.1_react@18.2.0
-      uuid: 8.3.2
-    dev: false
-
-  /@deskpro/deskpro-ui/6.2.0_e411952371d0cb7a1cdbc78413ecc9c1:
-    resolution: {integrity: sha512-5uv4lmTzbPPVTODmFm4lTfvrk0xEIRy1Ec/xQPpAUpB/mdK/kJqABrh2j1zq7mBQKPfWPPF8kxlshlaUZc/zrA==}
-    engines: {node: ^16.0.0}
-    peerDependencies:
-      '@typescript/lib-dom': npm:@types/web
-      react: ^18
-      react-dom: ^18
-      styled-components: ^5
-    dependencies:
-      '@fortawesome/fontawesome-svg-core': 6.2.1
-      '@fortawesome/free-solid-svg-icons': 6.2.1
-      '@fortawesome/react-fontawesome': 0.1.19_cebe167be39b298c5652d6c4a48e22a6
-      '@heroicons/react': 1.0.6_react@18.2.0
-      '@popperjs/core': 2.11.6
-      '@tippyjs/react': 4.2.6_react-dom@18.2.0+react@18.2.0
-      '@typescript/lib-dom': /@types/web/0.0.86
-      csstype: 3.1.0
-      d3-hierarchy: 3.1.2
       formik: 2.2.9_react@18.2.0
       framer-motion: 6.5.1_react-dom@18.2.0+react@18.2.0
       pretty-bytes: 6.0.0
@@ -2263,11 +2224,6 @@ packages:
 
   /csstype/3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
-
-  /d3-hierarchy/3.1.2:
-    resolution: {integrity: sha512-FX/9frcub54beBdugHjDCdikxThEqjnR93Qt7PvQTOHxyiNCAlvMrHhclk3cD5VeAaq9fxmfRp+CnWw9rEMBuA==}
-    engines: {node: '>=12'}
-    dev: false
 
   /data-uri-to-buffer/4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}

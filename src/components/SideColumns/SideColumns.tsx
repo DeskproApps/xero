@@ -42,7 +42,7 @@ export const SideColumns = ({
             vertical
             gap={["string", "number"].includes(typeof item.value) ? 4 : 0}
           >
-            <P8 style={{ color: theme.colors.grey80 }}>{item.key}</P8>
+            <P8 style={{ color: theme?.colors.grey80 }}>{item.key}</P8>
             <P5>
               {item.value == null || item.value == "" ? "　" : item.value}
             </P5>
