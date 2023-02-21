@@ -2,6 +2,7 @@
   "externalUrl": "Accounts/Receivable/Quotes/Edit/",
   "titleKeyName": "Title",
   "idKey": "QuoteID",
+  "title": "Quote",
   "list": [
     [
       {

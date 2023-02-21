@@ -64,7 +64,7 @@ export const FieldMapping = ({
           <Stack style={{ justifyContent: "space-between", width: "100%" }}>
             {internalUrl && (
               <StyledLink to={`${internalUrl}${field[idKey]}`}>
-                {field[titleKeyName] || i}
+                {field[titleKeyName] || field.Reference || i}
               </StyledLink>
             )}
             {externalUrl && (

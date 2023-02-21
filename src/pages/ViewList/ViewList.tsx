@@ -54,25 +54,23 @@ export const ViewList = () => {
 
       if (pageType === "list") {
         client.setTitle(
-          `${capitalizeFirstLetter(
-            objectName as string
-          )}s ${capitalizeFirstLetter(pageType)}`
+          `${correctJson?.title}s ${capitalizeFirstLetter(pageType)}`
         );
 
         return;
       }
-
-      client.setTitle(
-        itemMutation.data[getFnKey(objectName as string)][0][
-          correctJson?.titleKeyName as string
-        ] || capitalizeFirstLetter(objectName || "")
-      );
 
       client.registerElement("xeroLink", {
         type: "cta_external_link",
         url: `https://go.xero.com/${correctJson?.externalUrl}${objectId}`,
         hasIcon: true,
       });
+
+      client.setTitle(
+        itemMutation.data[getFnKey(objectName as string)][0][
+          correctJson?.titleKeyName as string
+        ] || capitalizeFirstLetter(objectName || "")
+      );
     },
     [contactJson, itemMutation.isSuccess, pageType]
   );
@@ -174,6 +172,7 @@ export const ViewList = () => {
           type: string;
         }[][]
       }
+      titleKeyName={correctJson.titleKeyName}
       internalUrl={
         pageType === "list" && objectName !== "note"
           ? `/view/${objectName}/`

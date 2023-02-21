@@ -1,6 +1,7 @@
 {
-  "externalUrl": "AccountsReceivable/View.aspx?invoiceid=",
+  "externalUrl": "AccountsPayable/View.aspx?InvoiceID=",
   "idKey": "InvoiceID",
+  "title": "Bill",
   "titleKeyName": "InvoiceNumber",
   "main": [
     [

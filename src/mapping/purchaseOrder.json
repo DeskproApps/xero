@@ -1,6 +1,7 @@
 {
   "externalUrl": "Accounts/Payable/PurchaseOrders/View/",
   "titleKeyName": "PurchaseOrderNumber",
+  "title": "Purchase Order",
   "idKey": "PurchaseOrderID",
   "list": [
     [

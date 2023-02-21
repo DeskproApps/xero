@@ -1,6 +1,7 @@
 {
   "idKey": "ContactId",
   "titleKeyName": "Name",
+  "title": "Contact",
   "externalUrl": "Contacts/View/",
   "create": [
     [
