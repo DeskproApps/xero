@@ -1,33 +1,9 @@
-Xero
-===
+<img align="right" alt="Deskpro" src="https://raw.githubusercontent.com/DeskproApps/xero/master/docs/assets/deskpro-logo.svg" />
 
-Basic Usage
----
+# Xero App
 
-We recommend using [PNPM](https://pnpm.io/) to manage this project. First, start by installing the project 
-dependencies from inside the project directory `app-template-vite`.
+View and manage accounting, invoicing, and more with Xero
 
-```bash
-pnpm install
-```
+![Xero App - Deskpro](https://raw.githubusercontent.com/DeskproApps/xero/master/docs/assets/xero_screenshot_01.png)
 
-Then, run the development server.
-
-```bash
-pnpm run start
-```
-
-You should now be able to view the bare-bones app in your browser.
-
-For more information or to start developing an app, please take a look at our [developer guides](https://support.deskpro.com/en/guides/developers/apps/apps-1/anatomy-of-an-app).
-
-Testing
----
-
-We've included `jest` to run your tests. It will look anywhere in `/src` for test suite files ending in `.test.tsx`.
-
-You can run all tests using:
-
-```bash
-pnpm run test
-```
+[Find out more about our Xero App](https://www.deskpro.com/apps/xero)
