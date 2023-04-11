@@ -2,14 +2,12 @@ import {
   Button,
   H1,
   H2,
-  Input,
   P1,
   Radio,
   Stack,
   useDeskproAppTheme,
+  CopyToClipboardInput
 } from "@deskpro/app-sdk";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -31,23 +29,7 @@ export const GlobalAuth = () => {
       {callbackUrl && (
         <>
           <H2 style={{ marginBottom: "5px" }}>Callback URL</H2>
-          <Stack
-            justify="space-between"
-            align="center"
-            style={{ width: "100%" }}
-          >
-            <Input defaultValue={callbackUrl}></Input>
-            <Stack style={{ marginLeft: "12px" }}>
-              <CopyToClipboard text={callbackUrl}>
-                <Button
-                  text="Copy"
-                  icon={faCopy}
-                  intent="secondary"
-                  style={{ boxShadow: "none" }}
-                />
-              </CopyToClipboard>
-            </Stack>
-          </Stack>
+          <CopyToClipboardInput value={callbackUrl}></CopyToClipboardInput>
           <P1
             style={{
               marginBottom: "16px",
