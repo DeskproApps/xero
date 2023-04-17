@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/xero",
   "title": "Xero",
   "description": "View and manage accounting, invoicing, and more with Xero",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scope": "agent",
   "isSingleInstall": true,
   "hasDevMode": true,
@@ -10,12 +10,7 @@
     "type": "github",
     "url": "https://github.com/DeskproApps/xero"
   },
-  "targets": [
-    {
-      "target": "user_sidebar",
-      "entrypoint": "#/"
-    }
-  ],
+  "targets": [{ "target": "user_sidebar", "entrypoint": "#/" }],
   "entityAssociations": {
     "linkedXeroContacts": {
       "entity": "person",
@@ -43,9 +38,7 @@
     "global_access_token": {
       "title": "",
       "type": "app_embedded",
-      "options": {
-        "entrypoint": "#/admin/globalauth"
-      },
+      "options": { "entrypoint": "#/admin/globalauth" },
       "isRequired": true,
       "isBackendOnly": true,
       "order": 30
@@ -55,13 +48,7 @@
     "whitelist": [
       {
         "url": "https://(.*).xero.com/.*",
-        "methods": [
-          "GET",
-          "POST",
-          "PUT",
-          "DELETE",
-          "PATCH"
-        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
         "timeout": 30
       }
     ]
