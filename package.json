@@ -10,7 +10,8 @@
     "serve": "vite preview",
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --verbose false",
-    "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage"
+    "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage",
+    "bumpManifestVer": "node ./bin/bumpManifestVer.js"
   },
   "dependencies": {
     "@deskpro/app-sdk": "1.2.14",
@@ -21,6 +22,7 @@
     "@types/uuid": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "polished": "^4.1.1",
+    "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
