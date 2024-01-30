@@ -47,10 +47,10 @@ export const CreateAccount = () => {
     if (!context) return;
 
     reset({
-      EmailAddress: context.data.user.primaryEmail,
-      FirstName: context.data.user.firstName,
-      LastName: context.data.user.lastName,
-      Name: context.data.user.name,
+      EmailAddress: context.data.user?.primaryEmail,
+      FirstName: context.data.user?.firstName,
+      LastName: context.data.user?.lastName,
+      Name: context.data.user?.name,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context]);
