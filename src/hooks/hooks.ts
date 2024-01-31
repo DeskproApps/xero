@@ -46,12 +46,12 @@ export const useLinkContact = () => {
     if (!context || !client || !id) return;
 
     const linkedContact = (
-      await client.getEntityAssociation("linkedXeroContacts", id.id).list()
+      await client.getEntityAssociation("linkedXeroContacts", id).list()
     )[0];
 
     if (linkedContact) return linkedContact;
 
-    const userEmail = id.primaryEmail;
+    const userEmail = context.data.user?.primaryEmail;
 
     const userInXero = await getContacts(client, userEmail);
 

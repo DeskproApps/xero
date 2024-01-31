@@ -126,6 +126,10 @@ export const getContacts = (
   client: IDeskproClient,
   text?: string
 ): Promise<IContactList> => {
+  if (!text)
+    return new Promise((resolve) =>
+      resolve({ Contacts: [] } as unknown as IContactList)
+    );
   return installedRequest(
     client,
     `api.xro/2.0/Contacts${
