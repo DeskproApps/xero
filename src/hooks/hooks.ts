@@ -12,29 +12,26 @@ export const useLinkContact = () => {
   const [isLinking, setIsLinking] = useState(false);
   const navigate = useNavigate();
 
-  const deskproUser = context?.data.user;
+  const id = context?.data.user?.id || context?.data.organisation.id;
 
-  //check if contactid is string or num
   const linkContact = useCallback(
     async (contactId: string) => {
       if (!context || !contactId || !client) return;
 
       setIsLinking(true);
 
-      const deskproUser = context?.data.user;
-
       const getEntityAssociationData = (await client
-        ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
+        ?.getEntityAssociation("linkedXeroContacts", id)
         .list()) as string[];
 
       if (getEntityAssociationData.length > 0) {
         await client
-          ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
+          ?.getEntityAssociation("linkedXeroContacts", id)
           .delete(getEntityAssociationData[0]);
       }
 
       await client
-        ?.getEntityAssociation("linkedXeroContacts", deskproUser.id)
+        ?.getEntityAssociation("linkedXeroContacts", id)
         .set(contactId);
 
       navigate("/");
@@ -42,21 +39,19 @@ export const useLinkContact = () => {
       setIsLinking(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, client]
+    [context, client, id]
   );
 
   const getContactId = useCallback(async () => {
-    if (!context || !client || !deskproUser) return;
+    if (!context || !client || !id) return;
 
     const linkedContact = (
-      await client
-        .getEntityAssociation("linkedXeroContacts", deskproUser.id)
-        .list()
+      await client.getEntityAssociation("linkedXeroContacts", id).list()
     )[0];
 
     if (linkedContact) return linkedContact;
 
-    const userEmail = deskproUser.primaryEmail;
+    const userEmail = context.data.user?.primaryEmail;
 
     const userInXero = await getContacts(client, userEmail);
 
@@ -72,15 +67,13 @@ export const useLinkContact = () => {
     if (!context || !client) return;
 
     (async () => {
-      const id = (
-        await client
-          .getEntityAssociation("linkedXeroContacts", deskproUser.id)
-          .list()
+      const entityId = (
+        await client.getEntityAssociation("linkedXeroContacts", id).list()
       )[0];
 
       await client
-        .getEntityAssociation("linkedXeroContacts", deskproUser.id)
-        .delete(id);
+        .getEntityAssociation("linkedXeroContacts", entityId)
+        .delete(entityId);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, context]);
