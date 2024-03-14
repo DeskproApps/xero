@@ -1,12 +1,5 @@
-import {
-  H1,
-  H3,
-  P11,
-  P8,
-  Stack,
-  useDeskproAppTheme,
-  P5,
-} from "@deskpro/app-sdk";
+import { H1, H3, P11, P8, Stack, P5 } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import { StyledLink } from "../../styles";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { LogoAndLinkButton } from "../LogoAndLinkButton/LogoAndLinkButton";

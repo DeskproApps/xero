@@ -1,10 +1,5 @@
+import { Button, H1, H2, P1, Radio, Stack } from "@deskpro/deskpro-ui";
 import {
-  Button,
-  H1,
-  H2,
-  P1,
-  Radio,
-  Stack,
   useDeskproAppTheme,
   CopyToClipboardInput
 } from "@deskpro/app-sdk";

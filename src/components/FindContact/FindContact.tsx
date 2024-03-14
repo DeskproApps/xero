@@ -1,12 +1,5 @@
-import {
-  Button,
-  Input,
-  Label,
-  Radio,
-  Spinner,
-  Stack,
-  useInitialisedDeskproAppClient,
-} from "@deskpro/app-sdk";
+import { Button, Input, Label, Radio, Spinner, Stack } from "@deskpro/deskpro-ui";
+import { useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { useState } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
@@ -41,7 +34,7 @@ export const FindContact = () => {
         value={inputText}
         placeholder="Enter item details"
         type="text"
-        leftIcon={faMagnifyingGlass}
+        leftIcon={faMagnifyingGlass as never}
       />
       {contacts.isLoading ? (
         <Stack style={{ margin: "auto", marginTop: "20px" }}>

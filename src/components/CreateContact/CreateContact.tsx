@@ -4,14 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodObject, ZodTypeAny } from "zod";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  H0,
-  H2,
-  Stack,
-  useDeskproLatestAppContext,
-  useInitialisedDeskproAppClient,
-} from "@deskpro/app-sdk";
+import { Button, H0, H2, Stack } from "@deskpro/deskpro-ui";
+import { useDeskproLatestAppContext, useInitialisedDeskproAppClient } from "@deskpro/app-sdk";
 import { postContact } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { getMetadataBasedSchema } from "../../schemas/default";

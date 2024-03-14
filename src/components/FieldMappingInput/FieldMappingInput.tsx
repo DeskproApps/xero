@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { H1, Stack, TextArea, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { H1, Stack, TextArea } from "@deskpro/deskpro-ui";
+import { DateInput, useDeskproAppTheme } from "@deskpro/app-sdk";
 import { FieldErrorsImpl } from "react-hook-form";
-import { DateField } from "../DateField/DateField";
 import { InputWithTitle } from "../InputWithTitle/InputWithTitle";
 import {
   UseFormRegister,
@@ -83,7 +83,7 @@ export const FieldMappingInput = forwardRef(
         );
       case "date":
         return (
-          <DateField
+          <DateInput
             required={field.required}
             style={
               !!errors?.[field.name] && {

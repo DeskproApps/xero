@@ -1,4 +1,5 @@
-import { Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { Stack } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 

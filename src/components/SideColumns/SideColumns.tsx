@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Stack, useDeskproAppTheme, P8, P5 } from "@deskpro/app-sdk";
+import { Stack, P8, P5 } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 
 import { ReactElement } from "react";
 
