@@ -47,32 +47,37 @@ export const ViewList = () => {
     any
   >((client, data) => data?.function(client, data.ContactID));
 
-  useInitialisedDeskproAppClient(
-    (client) => {
-      if (!contactJson || !itemMutation.isSuccess) return;
+  useInitialisedDeskproAppClient((client) => {
+    client.deregisterElement("refreshButton");
+    client.deregisterElement("xeroHomeButton");
+    client.deregisterElement("xeroLink");
+    client.deregisterElement("xeroMenuButton");
 
-      if (pageType === "list") {
-        client.setTitle(
-          `${correctJson?.title}s ${capitalizeFirstLetter(pageType)}`
-        );
+    client.registerElement("refreshButton", { type: "refresh_button" });
+    client.registerElement("xeroHomeButton", { type: "home_button" });
 
-        return;
-      }
+    if (!contactJson || !itemMutation.isSuccess) return;
 
-      client.registerElement("xeroLink", {
-        type: "cta_external_link",
-        url: `https://go.xero.com/${correctJson?.externalUrl}${objectId}`,
-        hasIcon: true,
-      });
-
+    if (pageType === "list") {
       client.setTitle(
-        itemMutation.data[getFnKey(objectName as string)][0][
-          correctJson?.titleKeyName as string
-        ] || capitalizeFirstLetter(objectName || "")
+        `${correctJson?.title}s ${capitalizeFirstLetter(pageType)}`
       );
-    },
-    [contactJson, itemMutation.isSuccess, pageType]
-  );
+
+      return;
+    }
+
+    client.registerElement("xeroLink", {
+      type: "cta_external_link",
+      url: `https://go.xero.com/${correctJson?.externalUrl}${objectId}`,
+      hasIcon: true,
+    });
+
+    client.setTitle(
+      itemMutation.data[getFnKey(objectName as string)][0][
+        correctJson?.titleKeyName as string
+      ] || capitalizeFirstLetter(objectName || "")
+    );
+  }, [contactJson, itemMutation.isSuccess, pageType]);
 
   useEffect(() => {
     switch (objectName) {

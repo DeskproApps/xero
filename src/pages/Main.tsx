@@ -77,25 +77,18 @@ export const Main = () => {
   useInitialisedDeskproAppClient((client) => {
     client.setTitle("Xero");
 
+    client.deregisterElement("refreshButton");
+    client.deregisterElement("xeroHomeButton");
     client.deregisterElement("xeroLink");
+    client.deregisterElement("xeroMenuButton");
 
     client.registerElement("refreshButton", { type: "refresh_button" });
-
-    client.registerElement("xeroHomeButton", {
-      type: "home_button",
-    });
-
     client.registerElement("xeroMenuButton", {
       type: "menu",
-      items: [
-        {
-          title: "Unlink contact",
-          payload: {
-            type: "changePage",
-            page: "/",
-          },
-        },
-      ],
+      items: [{
+        title: "Unlink contact",
+        payload: { type: "changePage", page: "/" },
+      }],
     });
   });
 

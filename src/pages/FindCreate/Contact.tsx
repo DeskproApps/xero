@@ -16,7 +16,13 @@ export const FindCreateAccount = () => {
   const navigate = useNavigate();
 
   useInitialisedDeskproAppClient((client) => {
+    client.deregisterElement("refreshButton");
+    client.deregisterElement("xeroHomeButton");
+    client.deregisterElement("xeroLink");
     client.deregisterElement("xeroMenuButton");
+
+    client.registerElement("refreshButton", { type: "refresh_button" });
+    client.registerElement("xeroHomeButton", { type: "home_button" });
   });
 
   useDeskproAppEvents({
