@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.3.2",
-    "@deskpro/app-sdk": "^2.1.14",
+    "@deskpro/app-sdk": "^2.1.12",
     "@deskpro/deskpro-ui": "^7.18.4",
     "@heroicons/react": "1.0.6",
     "@hookform/resolvers": "^2.9.10",
