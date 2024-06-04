@@ -9,8 +9,8 @@ dependencies:
     specifier: 4.3.2
     version: 4.3.2
   '@deskpro/app-sdk':
-    specifier: ^2.1.12
-    version: 2.1.12(@babel/core@7.24.3)(@deskpro/deskpro-ui@7.18.4)(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.9.5)
+    specifier: ^2.1.14
+    version: 2.1.14(@babel/core@7.24.3)(@deskpro/deskpro-ui@7.18.4)(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.9.5)
   '@deskpro/deskpro-ui':
     specifier: ^7.18.4
     version: 7.18.4(@types/web@0.0.86)(react-dom@18.2.0)(react@18.2.0)(styled-components@5.3.11)
@@ -29,9 +29,6 @@ dependencies:
   '@types/uuid':
     specifier: ^9.0.0
     version: 9.0.8
-  iframe-resizer:
-    specifier: ^4.3.11
-    version: 4.3.11
   json5:
     specifier: 2.2.2
     version: 2.2.2
@@ -588,8 +585,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@deskpro/app-sdk@2.1.12(@babel/core@7.24.3)(@deskpro/deskpro-ui@7.18.4)(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-A7yN7tXCs+rT1stAnd/WE+8hVj4EkneX1zXNaKxkLuakWhBGlLD4dGz+ljobUuWkGeW+Ip2uGvplBSIWVmwBsw==}
+  /@deskpro/app-sdk@2.1.14(@babel/core@7.24.3)(@deskpro/deskpro-ui@7.18.4)(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-qplw2dYQMLEbMducAKfowt/tgdDWwYL4pJEZvuMnwWal3EoeFCkqXYbPt/PSdakESw7s0OTlB66ugeTkQvoYoQ==}
     engines: {node: ^16.0.0}
     peerDependencies:
       '@deskpro/deskpro-ui': ^7
@@ -3366,11 +3363,6 @@ packages:
     dependencies:
       safer-buffer: 2.1.2
     dev: true
-
-  /iframe-resizer@4.3.11:
-    resolution: {integrity: sha512-5QtnsmfH11GDsuC7Gxd/eNzojudX3346Gb0E+Ku8ln8AtfSq+cWCZtnhCrthrtE7f1CI2/kwHkZ9G4sFYzHP7A==}
-    engines: {node: '>=0.8.0'}
-    dev: false
 
   /ignore@4.0.6:
     resolution: {integrity: sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==}
