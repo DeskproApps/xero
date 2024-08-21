@@ -5,10 +5,6 @@ html, body, #root {
   margin: 0px;
 }
 
-#root {
-  padding: 8px;
-  box-sizing: border-box;
-}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
