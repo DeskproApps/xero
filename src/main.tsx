@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { HashRouter } from "react-router-dom";
 import App from "./App";
 import { DeskproAppProvider } from "@deskpro/app-sdk";
 import "./main.css";
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <Scrollbar style={{ height: "100%", width: "100%" }}>
       <DeskproAppProvider>
-        <App />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </DeskproAppProvider>
     </Scrollbar>
   </React.StrictMode>

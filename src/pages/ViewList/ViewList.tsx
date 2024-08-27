@@ -1,4 +1,4 @@
-import { Spinner, Stack } from "@deskpro/deskpro-ui";
+import { Spinner } from "@deskpro/deskpro-ui";
 import {
   IDeskproClient,
   useDeskproAppEvents,
@@ -26,6 +26,7 @@ import invoiceJson from "../../mapping/invoice.json";
 import noteJson from "../../mapping/note.json";
 import purchaseOrderJson from "../../mapping/purchaseOrder.json";
 import quoteJson from "../../mapping/quote.json";
+import { Container } from "../../components/Layout";
 
 import { capitalizeFirstLetter, getFnKey } from "../../utils/utils";
 import { IJson } from "../../types/json";
@@ -160,29 +161,31 @@ export const ViewList = () => {
 
   if (!itemMutation.data || !correctJson) {
     return (
-      <Stack style={{ margin: "auto", marginTop: "20px" }}>
+      <Container>
         <Spinner size="extra-large" />
-      </Stack>
+      </Container>
     );
   }
 
   return (
-    <FieldMapping
-      fields={itemMutation.data[getFnKey(objectName as string)]}
-      metadata={
-        correctJson[pageType] as {
-          name: string;
-          label: string;
-          type: string;
-        }[][]
-      }
-      titleKeyName={correctJson.titleKeyName}
-      internalUrl={
-        pageType === "list" && objectName !== "note"
+    <Container>
+      <FieldMapping
+        fields={itemMutation.data[getFnKey(objectName as string)]}
+        metadata={
+          correctJson[pageType] as {
+            name: string;
+            label: string;
+            type: string;
+          }[][]
+        }
+        titleKeyName={correctJson.titleKeyName}
+        internalUrl={
+          pageType === "list" && objectName !== "note"
           ? `/view/${objectName}/`
           : ""
-      }
-      idKey={correctJson.idKey}
-    />
+        }
+        idKey={correctJson.idKey}
+      />
+    </Container>
   );
 };

@@ -20,7 +20,7 @@ export const GlobalAuth = () => {
     useGlobalAuth();
 
   return (
-    <Stack vertical gap={10} style={{ margin: "0px", height: "1000px" }}>
+    <Stack vertical gap={10}>
       {callbackUrl && (
         <>
           <H2 style={{ marginBottom: "5px" }}>Callback URL</H2>
