@@ -25,6 +25,7 @@ import purchaseOrderJson from "../mapping/purchaseOrder.json";
 import quoteJson from "../mapping/quote.json";
 import { StyledLink } from "../styles";
 import { QueryKeys } from "../utils/query";
+import { Container } from "../components/Layout";
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -125,9 +126,11 @@ export const Main = () => {
   });
 
   if (!contactQuery.data) {
-    <Stack style={{ margin: "auto", marginTop: "20px" }}>
-      <Spinner size="extra-large" />
-    </Stack>;
+    return (
+      <Container>
+        <Spinner size="extra-large" />
+      </Container>
+    );
   }
 
   const contact = contactQuery.data?.Contacts[0];
@@ -138,90 +141,92 @@ export const Main = () => {
   const notes = notesQuery.data?.HistoryRecords;
 
   return (
-    <Stack vertical>
-      {contact && (
-        <Stack style={{ width: "100%" }}>
-          <FieldMapping
-            fields={[contact]}
-            metadata={contactJson.main}
-            idKey="ContactID"
-            internalUrl={`/view/contact/`}
-            externalUrl={contactJson.externalUrl}
-            titleKeyName="Name"
-          />
-        </Stack>
-      )}
-      {invoices && invoices?.length !== 0 && (
-        <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink to={`/list/invoice/${contactId}`}>
-            Invoices ({invoices?.length})
-          </StyledLink>
-          <FieldMapping
-            fields={invoices as IInvoice[]}
-            internalUrl={`/view/invoice/`}
-            metadata={invoiceJson.main}
-            externalUrl={invoiceJson.externalUrl}
-            idKey="InvoiceID"
-            titleKeyName="InvoiceNumber"
-          />
-        </Stack>
-      )}
-      {bills && bills?.length !== 0 && (
-        <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink to={`/list/bill/${contactId}`}>
-            Bills ({bills?.length})
-          </StyledLink>
-          <FieldMapping
-            fields={bills as IInvoice[]}
-            metadata={billJson.main}
-            internalUrl={`/view/bill/`}
-            externalUrl={billJson.externalUrl}
-            idKey="InvoiceID"
-            titleKeyName="InvoiceNumber"
-          />
-        </Stack>
-      )}
-      {quotes && quotes?.length !== 0 && (
-        <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink to={`/list/quote/${contactId}`}>
-            Quotes ({quotes?.length})
-          </StyledLink>
-          <FieldMapping
-            fields={quotes as IQuote[]}
-            metadata={quoteJson.main}
-            internalUrl={`/view/quote/`}
-            externalUrl={quoteJson.externalUrl}
-            titleKeyName="Title"
-            idKey="QuoteID"
-          />
-        </Stack>
-      )}
-      {purchaseOrders && purchaseOrders?.length !== 0 && (
-        <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink to={`/list/purchaseorder/${contactId}`}>
-            Purchase Orders ({purchaseOrders?.length})
-          </StyledLink>
-          <FieldMapping
-            fields={purchaseOrders as IPurchaseOrder[]}
-            metadata={purchaseOrderJson.main}
-            internalUrl={`/view/purchaseorder/`}
-            externalUrl={purchaseOrderJson.externalUrl}
-            titleKeyName="PurchaseOrderNumber"
-            idKey="PurchaseOrderID"
-          />
-        </Stack>
-      )}
-      {notes && notes?.length !== 0 && (
-        <Stack style={{ width: "100%" }} vertical gap={5}>
-          <StyledLink to={`/list/note/${contactId}`}>
-            Notes ({notes?.length})
-          </StyledLink>
-          <FieldMapping
-            fields={notes as IHistoryRecord[]}
-            metadata={noteJson.main}
-          />
-        </Stack>
-      )}
-    </Stack>
+    <Container>
+      <Stack vertical>
+        {contact && (
+          <Stack style={{ width: "100%" }}>
+            <FieldMapping
+              fields={[contact]}
+              metadata={contactJson.main}
+              idKey="ContactID"
+              internalUrl={`/view/contact/`}
+              externalUrl={contactJson.externalUrl}
+              titleKeyName="Name"
+            />
+          </Stack>
+        )}
+        {invoices && invoices?.length !== 0 && (
+          <Stack style={{ width: "100%" }} vertical gap={5}>
+            <StyledLink to={`/list/invoice/${contactId}`}>
+              Invoices ({invoices?.length})
+            </StyledLink>
+            <FieldMapping
+              fields={invoices as IInvoice[]}
+              internalUrl={`/view/invoice/`}
+              metadata={invoiceJson.main}
+              externalUrl={invoiceJson.externalUrl}
+              idKey="InvoiceID"
+              titleKeyName="InvoiceNumber"
+            />
+          </Stack>
+        )}
+        {bills && bills?.length !== 0 && (
+          <Stack style={{ width: "100%" }} vertical gap={5}>
+            <StyledLink to={`/list/bill/${contactId}`}>
+              Bills ({bills?.length})
+            </StyledLink>
+            <FieldMapping
+              fields={bills as IInvoice[]}
+              metadata={billJson.main}
+              internalUrl={`/view/bill/`}
+              externalUrl={billJson.externalUrl}
+              idKey="InvoiceID"
+              titleKeyName="InvoiceNumber"
+            />
+          </Stack>
+        )}
+        {quotes && quotes?.length !== 0 && (
+          <Stack style={{ width: "100%" }} vertical gap={5}>
+            <StyledLink to={`/list/quote/${contactId}`}>
+              Quotes ({quotes?.length})
+            </StyledLink>
+            <FieldMapping
+              fields={quotes as IQuote[]}
+              metadata={quoteJson.main}
+              internalUrl={`/view/quote/`}
+              externalUrl={quoteJson.externalUrl}
+              titleKeyName="Title"
+              idKey="QuoteID"
+            />
+          </Stack>
+        )}
+        {purchaseOrders && purchaseOrders?.length !== 0 && (
+          <Stack style={{ width: "100%" }} vertical gap={5}>
+            <StyledLink to={`/list/purchaseorder/${contactId}`}>
+              Purchase Orders ({purchaseOrders?.length})
+            </StyledLink>
+            <FieldMapping
+              fields={purchaseOrders as IPurchaseOrder[]}
+              metadata={purchaseOrderJson.main}
+              internalUrl={`/view/purchaseorder/`}
+              externalUrl={purchaseOrderJson.externalUrl}
+              titleKeyName="PurchaseOrderNumber"
+              idKey="PurchaseOrderID"
+            />
+          </Stack>
+        )}
+        {notes && notes?.length !== 0 && (
+          <Stack style={{ width: "100%" }} vertical gap={5}>
+            <StyledLink to={`/list/note/${contactId}`}>
+              Notes ({notes?.length})
+            </StyledLink>
+            <FieldMapping
+              fields={notes as IHistoryRecord[]}
+              metadata={noteJson.main}
+            />
+          </Stack>
+        )}
+      </Stack>
+    </Container>
   );
 };

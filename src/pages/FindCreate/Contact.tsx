@@ -1,4 +1,3 @@
-import { Stack } from "@deskpro/deskpro-ui";
 import {
   TwoButtonGroup,
   useDeskproAppEvents,
@@ -10,6 +9,7 @@ import { useState } from "react";
 import { FindContact } from "../../components/FindContact/FindContact";
 import { CreateAccount } from "../../components/CreateContact/CreateContact";
 import { useNavigate } from "react-router-dom";
+import { Container } from "../../components/Layout";
 
 export const FindCreateAccount = () => {
   const [page, setPage] = useState<0 | 1>(0);
@@ -35,30 +35,27 @@ export const FindCreateAccount = () => {
   });
 
   return (
-    <Stack vertical>
-      <Stack>
-        <TwoButtonGroup
-          selected={
-            {
-              0: "one",
-              1: "two",
-            }[page] as "one" | "two"
-          }
-          oneIcon={faMagnifyingGlass}
-          twoIcon={faPlus}
-          oneLabel="Find Contact"
-          twoLabel="Create Contact"
-          oneOnClick={() => setPage(0)}
-          twoOnClick={() => setPage(1)}
-        ></TwoButtonGroup>
-      </Stack>
-
+    <Container>
+      <TwoButtonGroup
+        selected={
+          {
+            0: "one",
+            1: "two",
+          }[page] as "one" | "two"
+        }
+        oneIcon={faMagnifyingGlass}
+        twoIcon={faPlus}
+        oneLabel="Find Contact"
+        twoLabel="Create Contact"
+        oneOnClick={() => setPage(0)}
+        twoOnClick={() => setPage(1)}
+      />
       {
         {
           0: <FindContact />,
           1: <CreateAccount />,
         }[page]
       }
-    </Stack>
+    </Container>
   );
 };

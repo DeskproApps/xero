@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useMemo } from "react";
 import {
   QueryClientProvider,
   QueryErrorResetBoundary,
 } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback } from "./components/ErrorFallback/ErrorFallback";
 import { GlobalAuth } from "./pages/admin/GlobalAuth";
 import { Main } from "./pages/Main";
@@ -21,15 +22,19 @@ import { Redirect } from "./components/Redirect/Redirect";
 import { FindCreateAccount } from "./pages/FindCreate/Contact";
 import { ViewList } from "./pages/ViewList/ViewList";
 import { query } from "./utils/query";
+import { AppContainer } from "./components/Layout";
 
 function App() {
+  const { pathname } = useLocation();
+  const isAdmin = useMemo(() => pathname.includes("/admin/"), [pathname]);
+
   return (
-    <HashRouter>
-      <QueryClientProvider client={query}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <QueryErrorResetBoundary>
-            {({ reset }) => (
-              <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+    <QueryClientProvider client={query}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+              <AppContainer isAdmin={isAdmin}>
                 <Routes>
                   <Route path="/">
                     <Route path="/redirect" element={<Redirect />} />
@@ -54,12 +59,12 @@ function App() {
                     </Route>
                   </Route>
                 </Routes>
-              </ErrorBoundary>
-            )}
-          </QueryErrorResetBoundary>
-        </Suspense>
-      </QueryClientProvider>
-    </HashRouter>
+              </AppContainer>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
+      </Suspense>
+    </QueryClientProvider>
   );
 }
 
