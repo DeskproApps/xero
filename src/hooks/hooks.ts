@@ -5,18 +5,24 @@ import {
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getContacts } from "../api/api";
+import { ISettings, ContextData } from "../types/settings";
+import { isUser, isOrganisation } from "../utils";
 
 export const useLinkContact = () => {
-  const { context } = useDeskproLatestAppContext();
+  const { context } = useDeskproLatestAppContext<ContextData, ISettings>();
   const { client } = useDeskproAppClient();
   const [isLinking, setIsLinking] = useState(false);
   const navigate = useNavigate();
 
-  const id = context?.data.user?.id || context?.data.organisation.id;
+  const id = isUser(context)
+    ? context?.data?.user?.id
+    : isOrganisation(context)
+    ? context?.data?.organisation?.id
+    : null;
 
   const linkContact = useCallback(
     async (contactId: string) => {
-      if (!context || !contactId || !client) return;
+      if (!context || !contactId || !client || !id) return;
 
       setIsLinking(true);
 
@@ -38,20 +44,23 @@ export const useLinkContact = () => {
 
       setIsLinking(false);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context, client, id]
+    [navigate, context, client, id]
   );
 
   const getContactId = useCallback(async () => {
-    if (!context || !client || !id) return;
+    if (!context || !client || !id) {
+      return;
+    }
 
     const linkedContact = (
       await client.getEntityAssociation("linkedXeroContacts", id).list()
     )[0];
 
-    if (linkedContact) return linkedContact;
+    if (linkedContact) {
+      return linkedContact;
+    }
 
-    const userEmail = context.data.user?.primaryEmail;
+    const userEmail = isUser(context) ? context.data?.user?.primaryEmail : undefined;
 
     const userInXero = await getContacts(client, userEmail);
 
@@ -60,11 +69,12 @@ export const useLinkContact = () => {
 
       return userInXero.Contacts[0].ContactID;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, context]);
+  }, [client, context, id, linkContact]);
 
   const unlinkContact = useCallback(async () => {
-    if (!context || !client) return;
+    if (!context || !client || !id) {
+      return;
+    }
 
     (async () => {
       const entityId = (
@@ -75,8 +85,7 @@ export const useLinkContact = () => {
         .getEntityAssociation("linkedXeroContacts", entityId)
         .delete(entityId);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, context]);
+  }, [client, context, id]);
   return {
     linkContact,
     isLinking,

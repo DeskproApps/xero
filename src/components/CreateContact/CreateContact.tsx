@@ -14,10 +14,11 @@ import { IContact } from "../../types/contact";
 import { useLinkContact } from "../../hooks/hooks";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
 import { IContactList } from "../../api/types";
+import { UserData, ISettings } from "../../types/settings";
 
 export const CreateAccount = () => {
   const { linkContact } = useLinkContact();
-  const { context } = useDeskproLatestAppContext();
+  const { context } = useDeskproLatestAppContext<UserData, ISettings>();
   const [schema, setSchema] = useState<ZodTypeAny>(z.object({}));
 
   const navigate = useNavigate();
@@ -41,10 +42,10 @@ export const CreateAccount = () => {
     if (!context) return;
 
     reset({
-      EmailAddress: context.data.user?.primaryEmail,
-      FirstName: context.data.user?.firstName,
-      LastName: context.data.user?.lastName,
-      Name: context.data.user?.name,
+      EmailAddress: context.data?.user?.primaryEmail,
+      FirstName: context.data?.user?.firstName,
+      LastName: context.data?.user?.lastName,
+      Name: context.data?.user?.name,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context]);

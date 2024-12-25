@@ -134,9 +134,13 @@ export const getContacts = (
     client,
     `api.xro/2.0/Contacts${
       text &&
-      `?where=${encodeURIComponent(
-        `EmailAddress!=null&&EmailAddress.ToLower().Contains("${text.toLowerCase()}")||Name!=null&&Name.ToLower().Contains("${text.toLowerCase()}")||AccountNumber!=null&&AccountNumber.ToLower().Contains("${text.toLowerCase()}")`
-      )}`
+      `?where=${encodeURIComponent([
+        `EmailAddress!=null&&EmailAddress.ToLower().Contains("${text.toLowerCase()}")`,
+        `AccountNumber!=null&&AccountNumber.ToLower().Contains("${text.toLowerCase()}")`,
+        `Name!=null&&Name.ToLower().Contains("${text.toLowerCase()}")`,
+        `FirstName!=null&&FirstName.ToLower().Contains("${text.toLowerCase()}")`,
+        `LastName!=null&&LastName.ToLower().Contains("${text.toLowerCase()}")`,
+      ].join("||"))}`
     }`,
     "GET"
   );
