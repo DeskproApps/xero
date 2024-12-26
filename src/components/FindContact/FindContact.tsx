@@ -7,7 +7,7 @@ import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { useQueryWithClient } from "../../hooks/useQueryWithClient";
 import { QueryKeys } from "../../utils/query";
 import { getContacts } from "../../api/api";
-import { useLinkContact } from "../../hooks/hooks";
+import { useLinkContact } from "../../hooks";
 import { IContactList } from "../../api/types";
 import { ContactItem } from "../common";
 

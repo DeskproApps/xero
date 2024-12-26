@@ -1,18 +1,17 @@
-import {
-  useDeskproAppClient,
-  useDeskproLatestAppContext,
-} from "@deskpro/app-sdk";
+import { useDeskproAppClient, useDeskproLatestAppContext } from "@deskpro/app-sdk";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAsyncError } from "../hooks";
+import { isUser, isOrganisation } from "../utils";
 import { getContacts } from "../api/api";
 import { ISettings, ContextData } from "../types/settings";
-import { isUser, isOrganisation } from "../utils";
 
 export const useLinkContact = () => {
   const { context } = useDeskproLatestAppContext<ContextData, ISettings>();
   const { client } = useDeskproAppClient();
   const [isLinking, setIsLinking] = useState(false);
   const navigate = useNavigate();
+  const { asyncErrorHandler } = useAsyncError();
 
   const id = isUser(context)
     ? context?.data?.user?.id
@@ -62,14 +61,20 @@ export const useLinkContact = () => {
 
     const userEmail = isUser(context) ? context.data?.user?.primaryEmail : undefined;
 
-    const userInXero = await getContacts(client, userEmail);
+    let userInXero;
 
-    if (userInXero.Contacts.length !== 0) {
+    try {
+      userInXero = await getContacts(client, userEmail);
+    } catch (error) {
+      throw asyncErrorHandler(error as Error);
+    }
+
+    if (userInXero?.Contacts?.length) {
       await linkContact(userInXero.Contacts[0].ContactID);
 
       return userInXero.Contacts[0].ContactID;
     }
-  }, [client, context, id, linkContact]);
+  }, [client, context, id, linkContact, asyncErrorHandler]);
 
   const unlinkContact = useCallback(async () => {
     if (!context || !client || !id) {

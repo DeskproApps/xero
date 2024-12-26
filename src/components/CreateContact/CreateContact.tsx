@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { getMetadataBasedSchema } from "../../schemas/default";
 import { FieldMappingInput } from "../FieldMappingInput/FieldMappingInput";
 import { IContact } from "../../types/contact";
-import { useLinkContact } from "../../hooks/hooks";
+import { useLinkContact } from "../../hooks";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
 import { IContactList } from "../../api/types";
 import { UserData, ISettings } from "../../types/settings";
