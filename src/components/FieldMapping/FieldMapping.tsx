@@ -92,7 +92,7 @@ export const FieldMapping = ({
                       <P8 style={{ color: theme?.colors.grey80 }}>
                         {usableFields[0].key}
                       </P8>
-                      <P5 style={{ whiteSpace: "pre-line" }}>
+                      <P5 style={{ whiteSpace: "pre-line", wordBreak: "break-all" }}>
                         {usableFields[0].value}
                       </P5>
                     </Stack>

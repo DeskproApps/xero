@@ -39,7 +39,7 @@
     "global_access_token": {
       "title": "",
       "type": "app_embedded",
-      "options": { "entrypoint": "#/admin/globalauth" },
+      "options": { "entrypoint": "#/admin/globalauth", "height": "320px" },
       "isRequired": true,
       "isBackendOnly": true,
       "order": 30

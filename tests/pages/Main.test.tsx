@@ -11,8 +11,7 @@ const renderPage = () => {
   );
 };
 
-jest.mock("../../src/hooks/hooks", () => ({
-  ...jest.requireActual("../../src/hooks/hooks"),
+jest.mock("../../src/hooks/useLinkContact", () => ({
   useLinkContact: () => ({
     getContactId: () => 1,
     context: {},

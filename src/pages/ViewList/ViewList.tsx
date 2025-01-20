@@ -1,6 +1,6 @@
-import { Spinner } from "@deskpro/deskpro-ui";
 import {
   IDeskproClient,
+  LoadingSpinner,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
@@ -162,7 +162,7 @@ export const ViewList = () => {
   if (!itemMutation.data || !correctJson) {
     return (
       <Container>
-        <Spinner size="extra-large" />
+        <LoadingSpinner />
       </Container>
     );
   }
