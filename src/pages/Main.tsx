@@ -1,5 +1,6 @@
-import { Spinner, Stack } from "@deskpro/deskpro-ui";
+import { Stack } from "@deskpro/deskpro-ui";
 import {
+  LoadingSpinner,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
@@ -15,7 +16,7 @@ import {
 } from "../api/api";
 import { IHistoryRecord, IInvoice, IPurchaseOrder, IQuote } from "../api/types";
 import { FieldMapping } from "../components/FieldMapping/FieldMapping";
-import { useLinkContact } from "../hooks/hooks";
+import { useLinkContact } from "../hooks";
 import { useQueryWithClient } from "../hooks/useQueryWithClient";
 import billJson from "../mapping/bill.json";
 import contactJson from "../mapping/contact.json";
@@ -39,7 +40,6 @@ export const Main = () => {
       enabled: !!contactId,
       onError: async () => {
         await unlinkContact();
-
         navigate("/findCreate/account");
       },
     }
@@ -101,13 +101,11 @@ export const Main = () => {
 
       if (!getLinkedContactId) {
         navigate("/findCreate/account");
-
-        return;
+      } else {
+        setContactId(getLinkedContactId);
       }
-
-      setContactId(getLinkedContactId as string);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context, client]);
 
   useDeskproAppEvents({
@@ -128,7 +126,7 @@ export const Main = () => {
   if (!contactQuery.data) {
     return (
       <Container>
-        <Spinner size="extra-large" />
+        <LoadingSpinner />
       </Container>
     );
   }
