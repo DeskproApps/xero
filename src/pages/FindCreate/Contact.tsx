@@ -1,9 +1,8 @@
 import {
-  TwoButtonGroup,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
+import{Button, ButtonGroup,} from "@deskpro/deskpro-ui";
 
 import { useState } from "react";
 import { FindContact } from "../../components/FindContact/FindContact";
@@ -34,22 +33,44 @@ export const FindCreateAccount = () => {
     },
   });
 
+  const isCreatingContact = page === 1
+
+  type NavigationButton = {
+    text: string;
+    icon: "outline-dazzle-search" | "outline-dazzle-plus-large";
+    activeCondition: boolean;
+    page: 0| 1 
+}
+
+// While this might seem a bit over-engineered, it was intentionally designed for flexibility.
+// If the navigation button properties need to be updated (e.g., changing the size or intent),
+// changes can be made in one central location, reducing duplication.
+
+  const navigationButtons: NavigationButton[] = [
+    {
+      text: "Find Contact",
+      icon: "outline-dazzle-search",
+      activeCondition: !isCreatingContact,
+      page: 0
+    },
+    {
+      text: "Create Contact",
+      icon: "outline-dazzle-plus-large",
+      activeCondition: isCreatingContact,
+      page: 1
+    }
+  ]
+
   return (
     <Container>
-      <TwoButtonGroup
-        selected={
-          {
-            0: "one",
-            1: "two",
-          }[page] as "one" | "two"
-        }
-        oneIcon={faMagnifyingGlass}
-        twoIcon={faPlus}
-        oneLabel="Find Contact"
-        twoLabel="Create Contact"
-        oneOnClick={() => setPage(0)}
-        twoOnClick={() => setPage(1)}
-      />
+      <ButtonGroup style={{width: "100%", display: "flex", justifyContent: "center"}}>
+        {navigationButtons.map((navButton)=>{
+          return (
+          <Button key={navButton.text} style={{width: "100%"}} intent="secondary" icon={navButton.icon}  size="xlarge" onClick={() => setPage(navButton.page)} active={navButton.activeCondition} text={navButton.text} title={navButton.text}/>
+          )
+        })}        
+      </ButtonGroup>
+
       {
         {
           0: <FindContact />,
