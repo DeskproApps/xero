@@ -28,6 +28,7 @@ export const FindContact = () => {
 
   return (
     <>
+    <Stack vertical gap={6} style={{marginTop: "15px"}}>
       <Input
         onChange={(e) => setInputText(e.target.value)}
         value={inputText}
@@ -55,6 +56,7 @@ export const FindContact = () => {
             <HorizontalDivider />
           </Fragment>
         ))}
+        </Stack>
     </>
   );
 };
