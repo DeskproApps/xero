@@ -95,7 +95,7 @@ export const CreateAccount = () => {
       onSubmit={handleSubmit((data) => submitMutation.mutate(data))}
       style={{ width: "100%" }}
     >
-      <Stack vertical gap={12}>
+      <Stack vertical gap={12} style={{marginTop: "15px"}}>
         <Stack vertical gap={12} style={{ width: "100%" }}>
           {contactJson.create.flat().map((field, i) => {
             return (
