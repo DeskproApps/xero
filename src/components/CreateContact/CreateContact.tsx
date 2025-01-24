@@ -15,6 +15,15 @@ import { useLinkContact } from "../../hooks";
 import { useQueryMutationWithClient } from "../../hooks/useQueryWithClient";
 import { IContactList } from "../../api/types";
 import { UserData, ISettings } from "../../types/settings";
+import styled from "styled-components";
+
+const ErrorBlock = styled(Stack)`
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.red100};
+`;
 
 export const CreateAccount = () => {
   const { linkContact } = useLinkContact();
@@ -86,7 +95,7 @@ export const CreateAccount = () => {
       onSubmit={handleSubmit((data) => submitMutation.mutate(data))}
       style={{ width: "100%" }}
     >
-      <Stack vertical gap={12}>
+      <Stack vertical gap={12} style={{marginTop: "15px"}}>
         <Stack vertical gap={12} style={{ width: "100%" }}>
           {contactJson.create.flat().map((field, i) => {
             return (
@@ -129,9 +138,13 @@ export const CreateAccount = () => {
           ></Button>
         </Stack>
         {submitMutation.isError && (
-          <H2 style={{ color: "red", whiteSpace: "pre-line" }}>
-            {(submitMutation.error as { message: string })?.message}
-          </H2>
+          // This is a temporary fix so the user doesn't get a log of an error object that's confusing
+          // It would be better to tell the user what went wrong (if its helpful)
+          // the submitMutation.error.message is a JSON that need to parsed properlly
+          // then it's content can be displayed to the user (if helpful).
+          <ErrorBlock>
+            An error occured while creating the contact.
+          </ErrorBlock>
         )}
       </Stack>
     </form>

@@ -1,7 +1,6 @@
 import { FC, useCallback, MouseEvent } from "react";
 import styled from "styled-components";
-import { Stack, Radio, P5 } from "@deskpro/deskpro-ui";
-import { Link } from "@deskpro/app-sdk";
+import { Stack, Radio, P5, Button, } from "@deskpro/deskpro-ui";
 import { Overflow, Secondary } from "../Typography";
 import { LogoAndLinkButton } from "../../LogoAndLinkButton/LogoAndLinkButton";
 import { IContact } from "../../../api/types";
@@ -29,8 +28,7 @@ const Name: FC<Pick<Props, "contact"|"onChange">> = ({ contact, onChange }) => {
 
   return (
     <P5>
-
-      <Link href="#" onClick={clickHandler}>{contact.Name}</Link>
+      <Button intent="minimal" onClick={clickHandler} text={contact.Name}/>
     </P5>
   )
 };
@@ -44,7 +42,7 @@ const ContactItem: FC<Props> = ({ contact, onChange, selectedContact }) => {
       />
       <ContactBox style={{ boxSizing: "border-box" }}>
         <Name contact={contact} onChange={onChange}/>
-        <Stack justify="space-between" wrap="nowrap">
+        <Stack gap={10} justify="space-between" wrap="nowrap" >
           <Overflow as={P5}>
             <Secondary type="p5">{contact.EmailAddress || "No email address"}</Secondary>
           </Overflow>
