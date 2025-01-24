@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
-import { Button, Input } from "@deskpro/deskpro-ui";
-import { useInitialisedDeskproAppClient, LoadingSpinner } from "@deskpro/app-sdk";
+import { Button, Input, Spinner, Stack } from "@deskpro/deskpro-ui";
+import { useInitialisedDeskproAppClient} from "@deskpro/app-sdk";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useDebounce from "../../utils/debounce";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
@@ -44,7 +44,7 @@ export const FindContact = () => {
       </div>
       <HorizontalDivider />
       {contacts.isLoading
-        ? <LoadingSpinner/>
+        ? <Spinner/>
         : contacts.data?.Contacts?.map((contact) => (
           <Fragment key={contact.ContactID}>
             <ContactItem
