@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/xero",
   "title": "Xero",
   "description": "View and manage accounting, invoicing, and more with Xero",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/xero",
   "scope": "agent",
   "isSingleInstall": true,
