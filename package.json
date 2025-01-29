@@ -4,12 +4,13 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "vite",
-    "build": "rm -r ./dist/* && tsc && vite build",
-    "build:package": "pnpm run build && pnpm run package",
-    "package": "rm -r ./build/* && node ./bin/package.js",
+    "build": "rm -rf ./dist/ && tsc && vite build",
+    "build:package": "pnpm build && pnpm package",
+    "package": "rm -rf ./build/ && node ./bin/package.js",
     "serve": "vite preview",
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src",
-    "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --verbose false",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75%",
+    "test:watch": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --watch --maxWorkers=75%",
     "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75% --coverage",
     "bumpManifestVer": "node ./bin/bumpManifestVer.js"
   },
