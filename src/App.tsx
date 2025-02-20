@@ -7,7 +7,7 @@ import {
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback } from "./components/ErrorFallback/ErrorFallback";
-import { GlobalAuth } from "./pages/admin/GlobalAuth";
+import {AdminCallbackPage,  GlobalAuth } from "./pages/admin/";
 import { Main } from "./pages/Main";
 
 import "flatpickr/dist/themes/light.css";
@@ -47,6 +47,7 @@ function App() {
                     </Route>
                     <Route path="admin">
                       <Route path="globalauth" element={<GlobalAuth />} />
+                      <Route path="callback" element={<AdminCallbackPage />} />
                     </Route>
                     <Route path="findCreate">
                       <Route path="account" element={<FindCreateAccount />} />

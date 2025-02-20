@@ -9,6 +9,8 @@ export const getAccessAndRefreshTokens = async (
 ) => {
   const fetch = await adminGenericProxyFetch(client);
 
+  console.log("[Log] Getting tokens")
+  // console.log("[Log] Settings: ", settings)
   return await fetch(`https://identity.xero.com/connect/token`, {
     method: "POST",
     headers: {
@@ -19,8 +21,8 @@ export const getAccessAndRefreshTokens = async (
     },
     body: new URLSearchParams({
       grant_type: "authorization_code",
-      code: accessCode as string,
-      redirect_uri: new URL(callbackUrl as string).toString(),
+      code: accessCode ,
+      redirect_uri:  callbackUrl,
     }),
   }).then((res) => res.json());
 };

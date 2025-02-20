@@ -8,6 +8,7 @@
   "isSingleInstall": true,
   "hasDevMode": true,
   "serveUrl": "https://apps-cdn.deskpro-service.com/__name__/__version__",
+  "secrets": "eu2ic3ily6tHKTvJnP6fjfapd7kvXRdy79k1Kk2wrnv2jMEy2vXEsC2TswfJIBOgyNSIfJg9C58LUbBbQOmu14Lf2AWb6c4hbfChQgu3OeRJy8DHD/t1U0REkgqPIow0eC/VUw5nNS+IRb0EbVkIjs/w+zGawEgTYrv2dL/X1muTOARFwDk0cxdOx3eIP3LNp3yED6532e3tI/V4uCkiQmka8CXWpIENjdg/ZS8gm1LNoqZJ005cf9/SKNyj19ZjiD4OWes1+r0TH7pkxHgXCJzhb7eoqvT3rxzYxid2YLD7VktC2nlk3yTpyC54vdpQv1ZncCYh54TUSVRA3320URSY6A4z/VsEuDMVaiL6yFjD/06oCPWYcnmgo3wEGnJ0L1+3roqDpbfoQXppDHXLWCcY6LkARQP0eU5Z5qNN2VjzVxJI9EQladxN1/BP8TANpGjOfquOqkL5XOw2ltwHrCypzPtuFfZJ5UAalK4tD4n+CSV2gJASK3KuCSDmELs/u2RWNWEtdZPhKjx84A5lMIvwduLAe9QI85SScn5TTZg8uXpNemhfuTHFLg/NOVzsTN5i4c0FBmt31Vt1Lm6qzSwywRj6qbH0sLjo0vbGJo6Joo2lhiff9tiZyq021+3gSAz5O/g5vFfd/Ot/K3E8kXTdYHIB1ZGL6JzgJFbDN4M=",
   "targets": [
     { "target": "user_sidebar", "entrypoint": "#/" },
     { "target": "organisation_sidebar", "entrypoint": "#/" }
@@ -20,29 +21,51 @@
     }
   },
   "settings": {
+    "use_deskpro_saas": {
+      "title": "One-Click Installation",
+      "type": "boolean",
+      "default": true,
+      "isRequired": false,
+      "isBackendOnly": false,
+      "order": 5
+    },
     "client_id": {
       "title": "Client ID",
       "description": "Client ID can be obtained by following our setup guide",
       "type": "string",
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": true,
+      "condition": "settings.use_deskpro_saas != true",
       "order": 10
     },
     "client_secret": {
       "title": "Client Secret",
       "description": "Client Secret can be obtained by following our setup guide",
       "type": "string",
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": true,
+      "condition": "settings.use_deskpro_saas != true",
       "order": 20
+    },
+    "callback_url": {
+      "title": "Callback URL",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "#/admin/callback",
+        "height": "120px"
+      },
+      "condition": "settings.use_deskpro_saas != true",
+      "isRequired": false,
+      "isBackendOnly": true,
+      "order": 30
     },
     "global_access_token": {
       "title": "",
       "type": "app_embedded",
       "options": { "entrypoint": "#/admin/globalauth", "height": "320px" },
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": true,
-      "order": 30
+      "order": 40
     }
   },
   "proxy": {
