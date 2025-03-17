@@ -69,7 +69,7 @@ export const useGlobalAuth = () => {
                 }
             )
             // Global Proxy Service
-            : await client.startOauth2Global("TW2mwcHyQwCmkrzNjgdMAQ");
+            : await client.startOauth2Global("D48B4D38D21B429891AC05258AB37E1E");
 
         setAuthUrl(oAuth2Response.authorizationUrl)
         setOAuth2Context(oAuth2Response)
