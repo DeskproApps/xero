@@ -1,172 +1,143 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
-// import { v4 as uuidv4 } from "uuid";
-// import jwt_decode from "jwt-decode";
-// import { useEffect, useMemo, useState } from "react";
-// import {
-//   useDeskproAppClient,
-//   useDeskproAppEvents,
-//   useInitialisedDeskproAppClient,
-// } from "@deskpro/app-sdk";
+import { createSearchParams } from "react-router-dom";
+import { getAccessAndRefreshTokens, getTenants } from "../api/preInstallApi";
+import { IConnectToken } from "../api/types";
+import { ISettings } from "../types/settings";
+import { ITenant } from "../api/types";
+import { useCallback, useState } from "react";
+import { IOAuth2, OAuth2Result, useDeskproAppClient, useDeskproLatestAppContext, useInitialisedDeskproAppClient, } from "@deskpro/app-sdk";
 
-// import { ISettings } from "../types/settings";
-// import { getAccessAndRefreshTokens, getTenants } from "../api/preInstallApi";
-// import { IConnectToken } from "../api/types";
-// import { ITenant } from "../api/types";
+export const useGlobalAuth = () => {
 
-// export const useGlobalAuth = () => {
-//   const { client } = useDeskproAppClient();
-//   const key = useMemo(() => uuidv4(), []);
+    const [authUrl, setAuthUrl] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false)
+    const [isPolling, setIsPolling] = useState(false)
+    const [oAuth2Context, setOAuth2Context] = useState<IOAuth2 | null>(null)
+    const [oAuth2Tokens, setOAuth2Tokens] = useState<IConnectToken | null>(null);
+    const [tenants, setTenants] = useState<ITenant[] | null>(null);
 
-//   const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
-//   const [authUrl, setAuthUrl] = useState<string | null>(null);
+    const { client } = useDeskproAppClient();
+    const { context } = useDeskproLatestAppContext<unknown, ISettings>()
+    const [message, setMessage] = useState<{
+        error?: string;
+        success?: string;
+    } | null>(null);
+    const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
 
-//   const [poll, setPoll] = useState<(() => Promise<{ token: string }>) | null>(
-//     null
-//   );
-//   const [oauth2Tokens, setOauth2Tokens] = useState<IConnectToken | null>(null);
-//   const [settings, setSettings] = useState<ISettings | null>(null);
-//   const [tenants, setTenants] = useState<ITenant[] | null>(null);
-//   const [accessCode, setAccessCode] = useState<string | null>(null);
-//   const [message, setMessage] = useState<{
-//     error?: string;
-//     success?: string;
-//   } | null>(null);
-//   const [selectedTenant, setSelectedTenant] = useState<string | null>(null);
 
-//   useDeskproAppEvents(
-//     {
-//       onAdminSettingsChange: setSettings,
-//     },
-//     []
-//   );
+    useInitialisedDeskproAppClient(async (client) => {
+        if (context?.settings.use_deskpro_saas === undefined) {
+            // Make sure settings have loaded.
+            return
+        }
 
-//   useInitialisedDeskproAppClient(
-//     (client) => {
-//       (async () => {
-//         const { callbackUrl, poll } = await client
-//           .oauth2()
-//           .getAdminGenericCallbackUrl(
-//             key,
-//             /\?(code)=(?<token>[^&]+)/,
-//             // eslint-disable-next-line no-useless-escape
-//             /(&state)=(?<key>[^&]+)/
-//           );
+        const mode = context?.settings.use_deskpro_saas ? 'global' : 'local';
 
-//         setCallbackUrl(callbackUrl);
+        const clientId = context?.settings.client_id;
+        if (mode === 'local' && typeof clientId !== 'string') {
+            // Local mode requires a clientId.
+            setAuthUrl(null)
+            // setMessage({error: "A client ID is required"});
+            return
+        }
 
-//         setPoll(() => poll);
-//       })();
-//     },
-//     [key]
-//   );
+        const oAuth2Response = mode === "local" ?
+            await client.startOauth2Local(
+                ({ state, callbackUrl }) => {
+                    return `https://login.xero.com/identity/connect/authorize?${createSearchParams([
+                        ["response_type", "code"],
+                        ["client_id", clientId ?? ""],
+                        ["redirect_uri", callbackUrl],
+                        ["scope", "openid profile email accounting.transactions accounting.contacts accounting.reports.read accounting.attachments accounting.transactions offline_access"],
+                        ["state", state],
+                    ])}`;
+                },
+                /\bcode=(?<code>[^&#]+)/,
+                async (code: string): Promise<OAuth2Result> => {
+                    // Extract the callback URL from the authorization URL
+                    const url = new URL(oAuth2Response.authorizationUrl);
+                    const redirectUri = url.searchParams.get("redirect_uri");
 
-//   useEffect(() => {
-//     if (!key || !callbackUrl) return;
+                    if (!redirectUri) {
+                        throw new Error("Failed to get callback URL");
+                    }
 
-//     setAuthUrl(
-//       `https://login.xero.com/identity/connect/authorize?response_type=code&client_id=${
-//         settings?.client_id
-//       }&redirect_uri=${new URL(
-//         callbackUrl as string
-//       ).toString()}&scope=openid profile email accounting.transactions accounting.contacts accounting.reports.read accounting.attachments accounting.transactions offline_access&state=${key}`
-//     );
-//   }, [settings?.client_id, callbackUrl, key]);
+                    const data = await getAccessAndRefreshTokens(context.settings, code, redirectUri, client);
 
-//   const signOut = () => {
-//     client?.setAdminSetting("");
+                    return { data }
+                }
+            )
+            // Global Proxy Service
+            : await client.startOauth2Global("TW2mwcHyQwCmkrzNjgdMAQ");
 
-//     setAccessCode(null);
-//   };
+        setAuthUrl(oAuth2Response.authorizationUrl)
+        setOAuth2Context(oAuth2Response)
 
-//   const signIn = async () => {
-//     if (!callbackUrl || !poll) {
-//       setMessage({
-//         error:
-//           "Error getting callback URL. Please wait for the app to be initialized.",
-//       });
+    }, [setAuthUrl, context?.settings])
 
-//       return;
-//     }
 
-//     const code = await poll()
-//       .then((e) => e.token)
-//       .catch(() => false);
+    useInitialisedDeskproAppClient((client) => {
+        if (!oAuth2Context) {
+            return
+        }
 
-//     if (!code) {
-//       setMessage({
-//         error: "Error getting access code. Please try again.",
-//       });
+        const startPolling = async () => {
+            try {
+                const result = await oAuth2Context.poll()
 
-//       return;
-//     }
+                client.setUserState("oauth/global/access_token", result.data.access_token, { backend: true })
 
-//     setAccessCode(code as string);
-//   };
+                await client.setUserState("oauth/global/access_token", result.data.access_token, { backend: true })
 
-//   useInitialisedDeskproAppClient(
-//     (client) => {
-//       if (![accessCode, callbackUrl].every((e) => e)) return;
+                if (result.data.refresh_token) {
+                    await client.setUserState("oauth/global/refresh_token", result.data.refresh_token, { backend: true })
+                }
 
-//       (async () => {
-//         const tokens: IConnectToken = await getAccessAndRefreshTokens(
-//           settings as ISettings,
-//           accessCode as string,
-//           callbackUrl as string,
-//           client
-//         );
+                setOAuth2Tokens({
+                    access_token: result.data.access_token,
+                    refresh_token: result.data.refresh_token
+                });
 
-//         if (tokens.error) {
-//           setMessage({
-//             error: "Error signing in. Please try again: " + tokens.error,
-//           });
 
-//           return;
-//         }
+                const tenantsData = await getTenants(client, result.data.access_token);
+                setTenants(tenantsData);
+                setMessage({ success: "Successfully signed in." });
 
-//         const user = (jwt_decode(tokens.id_token) as { name: string }).name;
+            } catch (e) {
+                setMessage({ error: e instanceof Error ? e.message : "Unknown error" });
+            } finally {
+                setIsLoading(false)
+                setIsPolling(false)
+            }
+        }
 
-//         setOauth2Tokens(tokens);
+        if (isPolling) {
+            startPolling()
+        }
+    }, [isPolling, oAuth2Context])
 
-//         setMessage({
-//           success: `Successfully signed in. Welcome ${user}!`,
-//         });
-//       })();
-//     },
-//     [accessCode, callbackUrl]
-//   );
 
-//   useEffect(() => {
-//     if (!selectedTenant || !client || !oauth2Tokens) return;
+    const onSignOut = () => {
+        client?.setAdminSetting("");
+    };
 
-//     client.setAdminSetting(
-//       JSON.stringify({ ...oauth2Tokens, tenant_id: selectedTenant })
-//     );
-//   }, [selectedTenant, client, oauth2Tokens]);
+    const onSignIn = useCallback(() => {
+        setIsLoading(true);
+        setIsPolling(true);
+        window.open(authUrl ?? "", '_blank');
+    }, [setIsLoading, authUrl]);
 
-//   useEffect(() => {
-//     if (!oauth2Tokens || !client) return;
 
-//     (async () => {
-//       const tenants = await getTenants(client, oauth2Tokens.access_token);
+    useInitialisedDeskproAppClient((client) => {
+        if (!selectedTenant || !oAuth2Tokens) {
+            return
+        };
 
-//       setTenants(tenants);
-//     })();
-//   }, [oauth2Tokens, client]);
+        client.setAdminSetting(
+            JSON.stringify({ ...oAuth2Tokens, tenant_id: selectedTenant })
+        );
+    }, [selectedTenant, oAuth2Tokens]);
 
-//   return {
-//     callbackUrl,
-//     poll,
-//     key,
-//     setAccessCode,
-//     signIn,
-//     signOut,
-//     message,
-//     authUrl,
-//     tenants,
-//     selectedTenant,
-//     setSelectedTenant,
-//   };
-// };
-
-export {}
+    return { authUrl, onSignIn, onSignOut, message, isLoading, tenants, selectedTenant, setSelectedTenant };
+}

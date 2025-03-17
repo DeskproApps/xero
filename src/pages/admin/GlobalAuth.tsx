@@ -1,10 +1,7 @@
 import { AnchorButton, Button, H1, Radio, Stack } from "@deskpro/deskpro-ui";
-import {
-  useDeskproAppTheme,
-} from "@deskpro/app-sdk";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGlobalAuth2 } from "../../hooks/UseGlobalAuth2";
+import { useGlobalAuth } from "../../hooks/UseGlobalAuth";
+import { useDeskproAppTheme, } from "@deskpro/app-sdk";
 
 export const GlobalAuth = () => {
   const { theme } = useDeskproAppTheme();
@@ -16,21 +13,24 @@ export const GlobalAuth = () => {
     document.body.style.margin = "0px";
   }, []);
 
-  const { onSignIn, message, isLoading, authUrl, tenants, setSelectedTenant } = useGlobalAuth2();
+  const { onSignIn, message, isLoading, authUrl, tenants, setSelectedTenant } = useGlobalAuth();
 
   return (
     <Stack vertical gap={10}>
+      {/* Login button */}
       {authUrl && !message?.success && (
-        <Link to={authUrl} target="_blank">
-          <Button
-            text="Sign In"
-            data-testid="submit-button"
-            onClick={onSignIn}
-            disabled={!authUrl || isLoading}
-            loading={isLoading}
-          ></Button>
-        </Link>
+        <AnchorButton
+          data-testid="submit-button"
+          disabled={!authUrl || isLoading}
+          href={authUrl || "#"}
+          loading={isLoading}
+          target="_blank"
+          onClick={onSignIn}
+          text="Sign In"
+        />
       )}
+
+      {/* Error/Feedback Message */}
       {!message ? (
         <div></div>
       ) : message.error ? (
@@ -38,6 +38,8 @@ export const GlobalAuth = () => {
       ) : (
         <H1>{message.success}</H1>
       )}
+
+      {/* Show the available tenants after the user has logged in */}
       {tenants && (
         <Stack vertical>
           <H1>Please select the tenant you'd like to use:</H1>
@@ -70,6 +72,8 @@ export const GlobalAuth = () => {
                 ></Button>
               </Stack>
             )}
+
+            {/* Show selected tenant after submission */}
             <H1>
               {submitted &&
                 `Selected ${tenants.find((e) => e.tenantId === tenant)?.tenantName
