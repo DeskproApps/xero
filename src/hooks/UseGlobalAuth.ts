@@ -27,12 +27,12 @@ export const useGlobalAuth = () => {
 
 
     useInitialisedDeskproAppClient(async (client) => {
-        if (context?.settings.use_deskpro_saas === undefined) {
+        if (!context?.settings) {
             // Make sure settings have loaded.
             return
         }
 
-        const mode = context?.settings.use_deskpro_saas ? 'global' : 'local';
+        const mode = context?.settings.use_advanced_connect === false ? 'global' : 'local';
 
         const clientId = context?.settings.client_id;
         if (mode === 'local' && typeof clientId !== 'string') {
