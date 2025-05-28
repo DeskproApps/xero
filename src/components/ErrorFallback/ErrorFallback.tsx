@@ -3,6 +3,7 @@ import { Stack, H1, H2, Button } from "@deskpro/deskpro-ui";
 import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "../Layout";
 import { parseJsonErrorMessage } from "../../utils/utils";
+import { FallbackRender } from "@sentry/react";
 
 const SETTINGS_ERROR = "Please check that your settings for this app in admin are correct."
 
@@ -14,17 +15,14 @@ const ErrorBlock = styled(Stack)`
   background-color: ${({ theme }) => theme.colors.red100};
 `;
 
-export const ErrorFallback = ({
+export const ErrorFallback: FallbackRender = ({
   error,
-  resetErrorBoundary,
-}: {
-  error: Error;
-  resetErrorBoundary: () => void;
+  resetError,
 }) => {
-  let errMessage = parseJsonErrorMessage(error.message);
+  let errMessage = parseJsonErrorMessage((error as Error).message);
 
   try {
-    const parsedError = JSON.parse(error.message);
+    const parsedError = JSON.parse((error as Error).message);
 
     switch (parsedError.status) {
       case 500:
@@ -42,7 +40,7 @@ export const ErrorFallback = ({
         <H2>{errMessage}</H2>
         <Button
           text="Reload"
-          onClick={resetErrorBoundary}
+          onClick={resetError}
           icon={faRefresh as never}
           intent="secondary"
         />

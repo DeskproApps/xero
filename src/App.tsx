@@ -4,7 +4,6 @@ import {
   QueryClientProvider,
   QueryErrorResetBoundary,
 } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback } from "./components/ErrorFallback/ErrorFallback";
 import { GlobalAuth } from "./pages/admin/GlobalAuth";
@@ -23,6 +22,7 @@ import { FindCreateAccount } from "./pages/FindCreate/Contact";
 import { ViewList } from "./pages/ViewList/ViewList";
 import { query } from "./utils/query";
 import { AppContainer } from "./components/Layout";
+import { ErrorBoundary } from "@sentry/react";
 
 function App() {
   const { pathname } = useLocation();
@@ -33,7 +33,7 @@ function App() {
       <Suspense fallback={<LoadingSpinner />}>
         <QueryErrorResetBoundary>
           {({ reset }) => (
-            <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+            <ErrorBoundary onReset={reset} fallback={ErrorFallback}>
               <AppContainer isAdmin={isAdmin}>
                 <Routes>
                   <Route path="/">
