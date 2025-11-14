@@ -50,7 +50,19 @@
       {
         "url": "https://(.*).xero.com/.*",
         "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
-        "timeout": 30
+        "timeout": 30,
+        "settingsInjection": {
+          "client_id": {
+            "headers": ["Authorization"]
+          },
+          "client_secret": {
+            "headers": ["Authorization"]
+          },
+          "global_access_token": {
+            "body": ["refresh_token"],
+            "headers": ["xero-tenant-id"]
+          }
+        }
       }
     ]
   }
