@@ -53,14 +53,14 @@
         "timeout": 30,
         "settingsInjection": {
           "client_id": {
-            "headers": ["Authorization"]
+            "header": ["Authorization"]
           },
           "client_secret": {
-            "headers": ["Authorization"]
+            "header": ["Authorization"]
           },
           "global_access_token": {
             "body": ["refresh_token"],
-            "headers": ["xero-tenant-id"]
+            "header": ["xero-tenant-id"]
           }
         }
       }
