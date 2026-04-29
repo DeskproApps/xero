@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/xero",
   "title": "Xero",
   "description": "View and manage accounting, invoicing, and more with Xero",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/xero",
   "scope": "agent",
   "isSingleInstall": true,
@@ -48,7 +48,7 @@
   "proxy": {
     "whitelist": [
       {
-        "url": "https://(.*).xero.com/.*",
+        "url": "https://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.xero\\.com/.*",
         "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
         "timeout": 30
       }
