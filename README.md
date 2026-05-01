@@ -94,6 +94,7 @@ Every app deployment requires that the version property in the `manifest.json` f
 [![Contributors](https://contrib.rocks/image?repo=deskproapps/xero)](https://github.com/deskproapps/xero/graphs/contributors)
 
 
+
 ## License
 Distributed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
 
